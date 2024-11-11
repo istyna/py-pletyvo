@@ -10,12 +10,14 @@ __all__: typing.Sequence[str] = (
 
 import typing
 
-from . import abc
 from pletyvo.protocol import (
     dapp,
     registry,
 )
-from pletyvo.types import JSONType
+
+if typing.TYPE_CHECKING:
+    from . import abc
+    from pletyvo.types import JSONType
 
 
 class NetworkService(registry.abc.NetworkService):

@@ -13,12 +13,13 @@ import typing
 from aiohttp import ClientSession
 import attrs
 
-from pletyvo.types import (
-    JSONType,
-    JSONUnion,
-)
-
 from . import abc
+
+if typing.TYPE_CHECKING:
+    from pletyvo.types import (
+        JSONType,
+        JSONUnion,
+    )
 
 
 _CONTENT_TYPE_KEY: typing.Final[str] = "Content-Type"

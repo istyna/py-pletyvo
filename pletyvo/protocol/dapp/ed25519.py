@@ -15,8 +15,10 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import (
 )
 
 from . import abc
-from .address import Address
-from .auth_header import AuthHeader
+
+if typing.TYPE_CHECKING:
+    from .address import Address
+    from .auth_header import AuthHeader
 
 
 class Schema:

@@ -16,11 +16,13 @@ from uuid import UUID
 import attrs
 
 from pletyvo.protocol import dapp
-from pletyvo.types import (
-    UUIDLike,
-    uuidlike_as_uuid,
-    JSONType,
-)
+from pletyvo.types import uuidlike_as_uuid
+
+if typing.TYPE_CHECKING:
+    from pletyvo.types import (
+        UUIDLike,
+        JSONType,
+    )
 
 
 @attrs.define

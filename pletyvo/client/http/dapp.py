@@ -9,16 +9,19 @@ __all__: typing.Sequence[str] = (
 )
 
 import typing
-from uuid import UUID
 
-from . import abc
 from pletyvo.protocol import dapp
-from pletyvo.types import (
-    QueryOption,
-    uuidlike_as_uuid,
-    JSONType,
-    JSONList,
-)
+from pletyvo.types import uuidlike_as_uuid
+
+if typing.TYPE_CHECKING:
+    from uuid import UUID
+
+    from . import abc
+    from pletyvo.types import (
+        QueryOption,
+        JSONType,
+        JSONList,
+    )
 
 
 class EventService(dapp.abc.EventService):

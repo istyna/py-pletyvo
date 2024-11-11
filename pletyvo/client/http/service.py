@@ -7,11 +7,13 @@ __all__: typing.Sequence[str] = ("Service",)
 
 import typing
 
-from . import abc
 from .dapp import DappService
 from .registry import RegistryService
 from .delivery import DeliveryService
-from pletyvo.protocol.dapp import abc as _dapp_abc
+
+if typing.TYPE_CHECKING:
+    from . import abc
+    from pletyvo.protocol.dapp import abc as _dapp_abc
 
 
 class Service:

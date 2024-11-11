@@ -11,10 +11,11 @@ from uuid import UUID
 
 import attrs
 
-from ._types import (
-    UUIDLike,
-    uuidlike_as_uuid,
-)
+if typing.TYPE_CHECKING:
+    from ._types import (
+        UUIDLike,
+        uuidlike_as_uuid,
+    )
 
 
 _NIL_UUID = UUID("00000000-0000-0000-0000-000000000000")

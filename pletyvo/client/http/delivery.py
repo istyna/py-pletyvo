@@ -11,18 +11,20 @@ __all__: typing.Sequence[str] = (
 
 import typing
 
-from . import abc
-from pletyvo.types import (
-    QueryOption,
-    uuidlike_as_uuid,
-    JSONList,
-    JSONType,
-    UUIDLike,
-)
+from pletyvo.types import uuidlike_as_uuid
 from pletyvo.protocol import (
     dapp,
     delivery,
 )
+
+if typing.TYPE_CHECKING:
+    from . import abc
+    from pletyvo.types import (
+        QueryOption,
+        JSONList,
+        JSONType,
+        UUIDLike,
+    )
 
 
 class ChannelService(delivery.abc.ChannelService):

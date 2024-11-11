@@ -10,7 +10,8 @@ import base64
 
 import attrs
 
-from pletyvo.types import JSONType
+if typing.TYPE_CHECKING:
+    from pletyvo.types import JSONType
 
 
 @attrs.define

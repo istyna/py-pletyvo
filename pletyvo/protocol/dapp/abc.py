@@ -14,17 +14,18 @@ from abc import (
     abstractmethod,
 )
 
-from .auth_header import AuthHeader
-from .address import Address
-from .event import (
-    Event,
-    EventInput,
-    EventResponse,
-)
-from pletyvo.types import (
-    UUIDLike,
-    QueryOption,
-)
+if typing.TYPE_CHECKING:
+    from .auth_header import AuthHeader
+    from .address import Address
+    from .event import (
+        Event,
+        EventInput,
+        EventResponse,
+    )
+    from pletyvo.types import (
+        UUIDLike,
+        QueryOption,
+    )
 
 
 class Signer(ABC):

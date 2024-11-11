@@ -14,21 +14,22 @@ from abc import (
     abstractmethod,
 )
 
-from pletyvo.types import (
-    QueryOption,
-    UUIDLike,
-)
-from pletyvo.protocol import dapp
-from .channel import (
-    Channel,
-    ChannelCreateInput,
-    ChannelUpdateInput,
-)
-from .message import (
-    Message,
-    MessageCreateInput,
-    MessageUpdateInput,
-)
+if typing.TYPE_CHECKING:
+    from pletyvo.types import (
+        QueryOption,
+        UUIDLike,
+    )
+    from pletyvo.protocol import dapp
+    from .channel import (
+        Channel,
+        ChannelCreateInput,
+        ChannelUpdateInput,
+    )
+    from .message import (
+        Message,
+        MessageCreateInput,
+        MessageUpdateInput,
+    )
 
 
 class ChannelService(ABC):

@@ -21,7 +21,9 @@ import attrs
 
 from .address import Address
 from .auth_header import AuthHeader
-from pletyvo.types import JSONType
+
+if typing.TYPE_CHECKING:
+    from pletyvo.types import JSONType
 
 
 @attrs.define(slots=False)

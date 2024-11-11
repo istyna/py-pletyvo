@@ -11,7 +11,8 @@ from abc import (
     abstractmethod,
 )
 
-from pletyvo.types import JSONType, JSONUnion
+if typing.TYPE_CHECKING:
+    from pletyvo.types import JSONType, JSONUnion
 
 
 class HTTPClient(ABC):

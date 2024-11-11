@@ -16,7 +16,9 @@ from uuid import UUID
 import attrs
 
 from pletyvo.protocol import dapp
-from pletyvo.types import JSONType
+
+if typing.TYPE_CHECKING:
+    from pletyvo.types import JSONType
 
 
 @attrs.define

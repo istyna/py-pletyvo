@@ -11,13 +11,13 @@ from abc import (
     abstractmethod,
 )
 
-from pletyvo.protocol import dapp
-
-from .network import (
-    Network,
-    NetworkCreateInput,
-    NetworkUpdateInput,
-)
+if typing.TYPE_CHECKING:
+    from pletyvo.protocol import dapp
+    from .network import (
+        Network,
+        NetworkCreateInput,
+        NetworkUpdateInput,
+    )
 
 
 class NetworkService(ABC):
