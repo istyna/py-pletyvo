@@ -30,13 +30,13 @@ class EventService(dapp.abc.EventService):
 
     async def get(
         self, option: typing.Optional[QueryOption] = None
-    ) -> typing.List[dapp.Event]:
+    ) -> list[dapp.Event]:
         response: JSONList = await self._engine.get(
             f"/api/dapp/v1/events{option or ''}"
         )
         return [dapp.Event.from_dict(d=event) for event in response]  # type: ignore
 
-    async def get_by_id(self, id: typing.Union[UUID, str]) -> dapp.Event:
+    async def get_by_id(self, id: UUID | str) -> dapp.Event:
         response: JSONType = await self._engine.get(
             f"/api/dapp/v1/events/{uuidlike_as_uuid(id)}"
         )

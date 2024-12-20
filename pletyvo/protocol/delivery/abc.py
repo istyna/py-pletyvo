@@ -47,7 +47,7 @@ class MessageService(ABC):
     @abstractmethod
     async def get(
         self, channel: UUIDLike, option: typing.Optional[QueryOption] = None
-    ) -> typing.List[Message]: ...
+    ) -> list[Message]: ...
 
     @abstractmethod
     async def get_by_id(

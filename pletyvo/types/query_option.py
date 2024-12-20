@@ -11,10 +11,11 @@ from uuid import UUID
 
 import attrs
 
+from ._types import uuidlike_as_uuid
+
 if typing.TYPE_CHECKING:
     from ._types import (
         UUIDLike,
-        uuidlike_as_uuid,
     )
 
 
@@ -36,7 +37,7 @@ class QueryOption:
         self.after = uuidlike_as_uuid(self.after)
 
     def __str__(self) -> str:
-        buf: typing.List[str] = []
+        buf: list[str] = []
 
         if self.limit != 0:
             buf.append(f"limit={self.limit}")
