@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Osyah
+# Copyright (c) 2024-2025 Osyah
 # SPDX-License-Identifier: MIT
 
 from __future__ import annotations
@@ -10,8 +10,7 @@ import base64
 
 import attrs
 
-if typing.TYPE_CHECKING:
-    from pletyvo.types import JSONType
+from .hash import Hash
 
 
 @attrs.define
@@ -22,12 +21,21 @@ class AuthHeader:
 
     sig: bytes = attrs.field()
 
-    def __repr__(self):
-        return "<AuthHeader(sch=%r, pub=%r, sch=%r)>" % tuple(self.as_dict().values())
-
-    def as_dict(self) -> JSONType:
+    def as_dict(self):
         return {
             "sch": self.sch,
             "pub": base64.b64encode(self.pub).decode("utf-8"),
             "sig": base64.b64encode(self.sig).decode("utf-8"),
         }
+
+    @classmethod
+    def from_dict(cls, d: dict[str, typing.Any]) -> AuthHeader:
+        return cls(
+            sch=d["sch"],
+            pub=base64.b64decode(d["pub"]),
+            sig=base64.b64decode(d["sig"]),
+        )
+
+    @property
+    def author(self) -> Hash:
+        return Hash(self.pub)

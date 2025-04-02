@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Osyah
+# Copyright (c) 2024-2025 Osyah
 # SPDX-License-Identifier: MIT
 
 from __future__ import annotations
@@ -15,14 +15,12 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import (
 )
 
 from . import abc
-
-if typing.TYPE_CHECKING:
-    from .address import Address
-    from .auth_header import AuthHeader
+from .auth_header import AuthHeader
+from .hash import Hash
 
 
 class Schema:
-    ED25519 = 0
+    ED25519 = 1
 
 
 class ED25519(abc.Signer):
@@ -44,10 +42,10 @@ class ED25519(abc.Signer):
     def public(self) -> bytes:
         return self._publik.public_bytes_raw()
 
-    def address(self) -> Address:
-        return Address.generate(
+    def hash(self) -> Hash:
+        return Hash.gen(
             sch=self.schema(),
-            pub=self.public(),
+            data=self.public(),
         )
 
     def auth(self, msg: bytes) -> AuthHeader:

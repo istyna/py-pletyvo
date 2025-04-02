@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Osyah
+# Copyright (c) 2024-2025 Osyah
 # SPDX-License-Identifier: MIT
 
 from __future__ import annotations
@@ -16,7 +16,7 @@ from abc import (
 
 if typing.TYPE_CHECKING:
     from .auth_header import AuthHeader
-    from .address import Address
+    from .hash import Hash
     from .event import (
         Event,
         EventInput,
@@ -40,10 +40,15 @@ class Signer(ABC):
     def public(self) -> bytes: ...
 
     @abstractmethod
-    def address(self) -> Address: ...
+    def hash(self) -> Hash: ...
 
     @abstractmethod
     def auth(self, msg: bytes) -> AuthHeader: ...
+
+
+class HashService(ABC):
+    @abstractmethod
+    async def get_by_id(self, id: Hash) -> EventResponse: ...
 
 
 class EventService(ABC):
