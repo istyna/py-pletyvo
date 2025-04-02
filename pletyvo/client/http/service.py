@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Osyah
+# Copyright (c) 2024-2025 Osyah
 # SPDX-License-Identifier: MIT
 
 from __future__ import annotations
@@ -8,7 +8,6 @@ __all__: typing.Sequence[str] = ("Service",)
 import typing
 
 from .dapp import DappService
-from .registry import RegistryService
 from .delivery import DeliveryService
 
 if typing.TYPE_CHECKING:
@@ -17,13 +16,8 @@ if typing.TYPE_CHECKING:
 
 
 class Service:
-    __slots__: typing.Sequence[str] = (
-        "dapp",
-        "delivery",
-        "registry",
-    )
+    __slots__: typing.Sequence[str] = ("dapp", "delivery")
 
     def __init__(self, engine: abc.HTTPClient, signer: _dapp_abc.Signer) -> None:
         self.dapp = DappService(engine)
-        self.registry = RegistryService(engine, signer, self.dapp.event)
         self.delivery = DeliveryService(engine, signer, self.dapp.event)

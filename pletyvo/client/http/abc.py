@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Osyah
+# Copyright (c) 2024-2025 Osyah
 # SPDX-License-Identifier: MIT
 
 from __future__ import annotations
@@ -12,12 +12,12 @@ from abc import (
 )
 
 if typing.TYPE_CHECKING:
-    from pletyvo.types import JSONType, JSONUnion
+    from pletyvo.types import JSONType
 
 
 class HTTPClient(ABC):
     @abstractmethod
-    async def get(self, endpoint: str) -> JSONUnion: ...
+    async def get(self, endpoint: str) -> JSONType: ...
 
     @abstractmethod
-    async def post(self, endpoint: str, body: JSONType) -> JSONUnion: ...
+    async def post(self, endpoint: str, body: JSONType) -> JSONType: ...

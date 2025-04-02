@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Osyah
+# Copyright (c) 2024-2025 Osyah
 # SPDX-License-Identifier: MIT
 
 from __future__ import annotations
@@ -9,6 +9,7 @@ __all__: typing.Sequence[str] = (
 )
 
 import typing
+from functools import cached_property
 
 from aiohttp import ClientSession
 import attrs
@@ -16,10 +17,7 @@ import attrs
 from . import abc
 
 if typing.TYPE_CHECKING:
-    from pletyvo.types import (
-        JSONType,
-        JSONUnion,
-    )
+    from pletyvo.types import JSONType
 
 
 _CONTENT_TYPE_KEY: typing.Final[str] = "Content-Type"
@@ -38,26 +36,24 @@ class Config:
 class HTTPDefault(abc.HTTPClient):
     def __init__(self, config: Config):
         self._config = config
-        self._session: typing.Optional[ClientSession] = None
 
-    @property
+    @cached_property
     def session(self) -> ClientSession:
-        if self._session is None:
-            self._session = ClientSession(
-                base_url=self._config.url,
-                raise_for_status=True,
-                headers={_CONTENT_TYPE_KEY: _CONTENT_TYPE_JSON},
-            )
+        session = ClientSession(
+            base_url=self._config.url,
+            raise_for_status=True,
+            headers={_CONTENT_TYPE_KEY: _CONTENT_TYPE_JSON},
+        )
 
-            if (network := self._config.network) is not None:
-                self._session.headers[_NETWORK_IDENTIFY_KEY] = network
+        if network := self._config.network:
+            session.headers[_NETWORK_IDENTIFY_KEY] = network
 
-        return self._session
+        return session
 
-    async def get(self, endpoint: str) -> JSONUnion:
+    async def get(self, endpoint: str) -> JSONType:
         async with self.session.get(endpoint) as response:
             return await response.json()
 
-    async def post(self, endpoint: str, body: JSONType) -> JSONUnion:
+    async def post(self, endpoint: str, body: JSONType) -> JSONType:
         async with self.session.post(endpoint, json=body) as response:
             return await response.json()

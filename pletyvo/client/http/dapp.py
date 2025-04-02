@@ -1,9 +1,10 @@
-# Copyright (c) 2024 Osyah
+# Copyright (c) 2024-2025 Osyah
 # SPDX-License-Identifier: MIT
 
 from __future__ import annotations
 
 __all__: typing.Sequence[str] = (
+    "HashService",
     "EventService",
     "DappService",
 )
@@ -14,14 +15,21 @@ from pletyvo.protocol import dapp
 from pletyvo.types import uuidlike_as_uuid
 
 if typing.TYPE_CHECKING:
-    from uuid import UUID
-
     from . import abc
     from pletyvo.types import (
         QueryOption,
         JSONType,
-        JSONList,
+        UUIDLike,
     )
+
+
+class HashService(dapp.abc.HashService):
+    def __init__(self, engine: abc.HTTPClient) -> None:
+        self._engine = engine
+
+    async def get_by_id(self, id: dapp.Hash) -> dapp.EventResponse:
+        response: JSONType = await self._engine.get(f"/api/dapp/v1/hash/{id}")
+        return dapp.EventResponse.from_dict(response)
 
 
 class EventService(dapp.abc.EventService):
@@ -31,12 +39,12 @@ class EventService(dapp.abc.EventService):
     async def get(
         self, option: typing.Optional[QueryOption] = None
     ) -> list[dapp.Event]:
-        response: JSONList = await self._engine.get(
+        response: JSONType = await self._engine.get(
             f"/api/dapp/v1/events{option or ''}"
         )
         return [dapp.Event.from_dict(d=event) for event in response]  # type: ignore
 
-    async def get_by_id(self, id: UUID | str) -> dapp.Event:
+    async def get_by_id(self, id: UUIDLike) -> dapp.Event:
         response: JSONType = await self._engine.get(
             f"/api/dapp/v1/events/{uuidlike_as_uuid(id)}"
         )
@@ -50,7 +58,8 @@ class EventService(dapp.abc.EventService):
 
 
 class DappService:
-    __slots__ = ("event",)
+    __slots__: typing.Sequence[str] = ("hash", "event")
 
     def __init__(self, engine: abc.HTTPClient):
+        self.hash = HashService(engine)
         self.event = EventService(engine)
