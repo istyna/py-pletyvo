@@ -1,59 +1,63 @@
-# Copyright (c) 2024 Osyah
+# Copyright (c) 2024-2025 Osyah
 # SPDX-License-Identifier: MIT
 
 from __future__ import annotations
 
 __all__: typing.Sequence[str] = (
-    "ChannelInput",
     "Channel",
     "ChannelCreateInput",
     "ChannelUpdateInput",
 )
 
 import typing
-from uuid import UUID
 
 import attrs
 
 from pletyvo.protocol import dapp
 
-if typing.TYPE_CHECKING:
-    from pletyvo.types import JSONType
+
+channel_name_validator = attrs.validators.max_len(40)  # type: ignore[var-annotated]
 
 
 @attrs.define
-class ChannelInput:
-    name: str = attrs.field(validator=attrs.validators.max_len(40))
+class Channel(dapp.EventHeader):
+    name: str = attrs.field(validator=channel_name_validator)
 
-    def as_dict(self) -> JSONType:
+    author: dapp.Hash = attrs.field(converter=lambda s: dapp.Hash.from_str(s))
+
+    def as_dict(self):
+        return {
+            "id": str(self.id),
+            "hash": str(self.hash),
+            "author": str(self.author),
+            "name": str(self.name),
+        }
+
+    @classmethod
+    def from_dict(cls, d: dict[str, typing.Any]) -> Channel:
+        return cls(
+            id=d["id"],
+            hash=d["hash"],
+            author=d["author"],
+            name=d["name"],
+        )
+
+
+@attrs.define
+class ChannelCreateInput:
+    name: str = attrs.field(validator=channel_name_validator)
+
+    def as_dict(self):
         return {
             "name": self.name,
         }
 
 
 @attrs.define
-class Channel(ChannelInput, dapp.EventHeader):
-    def as_dict(self) -> JSONType:
+class ChannelUpdateInput:
+    name: str = attrs.field(validator=channel_name_validator)
+
+    def as_dict(self):
         return {
-            "id": str(self.id),
-            "author": str(self.author),
-            "name": str(self.name),
+            "name": self.name,
         }
-
-    @classmethod
-    def from_dict(cls, d: JSONType) -> Channel:
-        return cls(
-            id=UUID(d["id"]),
-            author=dapp.Address.from_str(d["author"]),
-            name=d["name"],
-        )
-
-
-@attrs.define
-class ChannelCreateInput(ChannelInput):
-    pass
-
-
-@attrs.define
-class ChannelUpdateInput(ChannelInput):
-    pass

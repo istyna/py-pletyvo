@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Osyah
+# Copyright (c) 2024-2025 Osyah
 # SPDX-License-Identifier: MIT
 
 from __future__ import annotations
@@ -25,10 +25,14 @@ if typing.TYPE_CHECKING:
         ChannelCreateInput,
         ChannelUpdateInput,
     )
+    from .post import (
+        Post,
+        PostCreateInput,
+        PostUpdateInput,
+    )
     from .message import (
         Message,
         MessageCreateInput,
-        MessageUpdateInput,
     )
 
 
@@ -57,5 +61,18 @@ class MessageService(ABC):
     @abstractmethod
     async def create(self, input: MessageCreateInput) -> dapp.EventResponse: ...
 
+
+class PostService(ABC):
     @abstractmethod
-    async def update(self, input: MessageUpdateInput) -> dapp.EventResponse: ...
+    async def get(
+        self, channel: UUIDLike, option: typing.Optional[QueryOption] = None
+    ) -> list[Post]: ...
+
+    @abstractmethod
+    async def get_by_id(self, channel: UUIDLike, id: UUIDLike) -> Post: ...
+
+    @abstractmethod
+    async def create(self, input: PostCreateInput) -> dapp.EventResponse: ...
+
+    @abstractmethod
+    async def update(self, input: PostUpdateInput) -> dapp.EventResponse: ...

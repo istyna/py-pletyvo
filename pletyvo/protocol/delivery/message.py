@@ -1,10 +1,9 @@
-# Copyright (c) 2024 Osyah
+# Copyright (c) 2024-2025 Osyah
 # SPDX-License-Identifier: MIT
 
 from __future__ import annotations
 
 __all__: typing.Sequence[str] = (
-    "MessageInput",
     "Message",
     "MessageCreateInput",
     "MessageUpdateInput",
@@ -16,65 +15,64 @@ from uuid import UUID
 import attrs
 
 from pletyvo.protocol import dapp
-from pletyvo.types import uuidlike_as_uuid
 
 if typing.TYPE_CHECKING:
     from pletyvo.types import (
         UUIDLike,
-        JSONType,
     )
 
-
-@attrs.define
-class MessageInput:
-    channel: UUIDLike = attrs.field()
-
-    content: str = attrs.field(validator=attrs.validators.max_len(2048))
-
-    def __attrs_post_init__(self):
-        self.channel = uuidlike_as_uuid(self.channel)
-
-    def as_dict(self) -> JSONType:
-        return {
-            "channel": str(self.channel),
-            "content": str(self.content),
-        }
+message_content_validator = (
+    attrs.validators.min_len(1),
+    attrs.validators.max_len(2048),
+)  # type: ignore[var-annotated]
 
 
 @attrs.define
-class Message(MessageInput, dapp.EventHeader):
-    def as_dict(self) -> JSONType:
+class Message:
+    body: dapp.EventBody = attrs.field(converter=lambda d: dapp.EventBody.from_str(d))
+
+    auth: dapp.AuthHeader = attrs.field(
+        converter=lambda d: dapp.AuthHeader.from_dict(d)
+    )
+
+    def as_dict(self):
         return {
-            "id": str(self.id),
-            "channel": str(self.channel),
-            "author": str(self.author),
-            "content": str(self.content),
+            "body": self.body,
+            "auth": self.auth.as_dict(),
         }
 
     @classmethod
-    def from_dict(cls, d: JSONType) -> Message:
+    def from_dict(cls, d: dict[str, typing.Any]) -> Message:
         return cls(
-            id=UUID(d["id"]),
-            channel=UUID(d["channel"]),
-            author=dapp.Address.from_str(d["author"]),
-            content=d["content"],
+            body=d["body"],
+            auth=d["auth"],
         )
 
 
 @attrs.define
-class MessageCreateInput(MessageInput):
-    pass
+class MessageCreateInput:
+    channel: UUIDLike = attrs.field(converter=UUID)
+
+    content: str = attrs.field(validator=message_content_validator)
+
+    def as_dict(self):
+        return {
+            "channel": str(self.channel),
+            "content": self.content,
+        }
 
 
 @attrs.define
-class MessageUpdateInput(MessageInput):
-    message: UUIDLike = attrs.field()
+class MessageUpdateInput:
+    message: UUIDLike = attrs.field(converter=UUID)
 
-    def __attrs_post_init__(self):
-        self.message = uuidlike_as_uuid(self.message)
+    channel: UUIDLike = attrs.field(converter=UUID)
 
-    def as_dict(self) -> JSONType:
+    content: str = attrs.field(validator=message_content_validator)
+
+    def as_dict(self):
         return {
-            **super().as_dict(),
             "message": str(self.message),
+            "channel": str(self.channel),
+            "content": self.content,
         }
