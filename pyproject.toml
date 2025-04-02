@@ -29,7 +29,6 @@ classifiers = [
   "License :: OSI Approved :: MIT License",
 
   "Programming Language :: Python :: Implementation :: CPython",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
@@ -43,5 +42,24 @@ version = {attr = "pletyvo.__version__"}
 [project.urls]
 Homepage = "https://pletyvo.osyah.com"
 Documentation = "https://pletyvo.osyah.com"
-Repository = "https://github.com/pletyvo/py-pletyvo.git"
-Issues = "https://github.com/pletyvo/py-pletyvo/issues"
+Repository = "https://github.com/osyah/py-pletyvo.git"
+Issues = "https://github.com/osyah/py-pletyvo/issues"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.14.1",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "UP",
+    "B",
+    "SIM",
+]
+ignore = ["B008"]
+
+[tool.ruff.lint.pyupgrade]
+# Preserve types, even if a file imports `from __future__ import annotations`.
+keep-runtime-typing = true
