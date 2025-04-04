@@ -38,7 +38,7 @@ class QueryOption:
         if self.order:
             buf.append("order=asc")
 
-        if self.after.version: 
+        if self.after.version:
             buf.append(f"after={self.after}")
 
         if self.before.version:

@@ -42,15 +42,6 @@ class Post:
 
     content: str = attrs.field(validator=post_content_validator)
 
-    def as_dict(self):
-        return {
-            "id": str(self.id),
-            "hash": str(self.hash),
-            "author": str(self.author),
-            "channel": str(self.channel),
-            "content": self.content,
-        }
-
     @classmethod
     def from_dict(cls, d: dict[str, typing.Any]) -> Post:
         return cls(
@@ -68,12 +59,6 @@ class PostCreateInput:
 
     content: str = attrs.field(validator=post_content_validator)
 
-    def as_dict(self):
-        return {
-            "channel": str(self.channel),
-            "content": self.content,
-        }
-
 
 @attrs.define
 class PostUpdateInput:
@@ -82,10 +67,3 @@ class PostUpdateInput:
     post: Hash = attrs.field(converter=hash_from_str)
 
     content: str = attrs.field(validator=post_content_validator)
-
-    def as_dict(self):
-        return {
-            "channel": str(self.channel),
-            "post": str(self.post),
-            "content": self.content,
-        }

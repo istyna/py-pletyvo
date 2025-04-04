@@ -24,9 +24,11 @@ from .hash import Hash
 from .auth_header import AuthHeader
 from pletyvo.utils import padd
 
-
 if typing.TYPE_CHECKING:
     from pletyvo.types import UUIDLike
+
+
+event_type_octet_validator = (attrs.validators.in_(range(0, 0x100)),)
 
 
 @attrs.define(slots=False)
@@ -49,35 +51,14 @@ class EventInput:
 
     auth: AuthHeader = attrs.field()
 
-    def as_dict(self):
-        return {
-            "body": str(self.body),
-            "auth": self.auth.as_dict(),
-        }
-
-
-def event_body_from_str(s) -> EventBody:
-    return EventBody.from_str(s)
-
-
-def auth_header_from_dict(d) -> AuthHeader:
-    return AuthHeader.from_dict(d)
-
 
 @attrs.define
 class Event:
     id: UUID = attrs.field(converter=UUID)
 
-    body: EventBody = attrs.field(converter=event_body_from_str)
+    body: EventBody = attrs.field(converter=lambda s: EventBody.from_str(s))
 
-    auth: AuthHeader = attrs.field(converter=auth_header_from_dict)
-
-    def as_dict(self):
-        return {
-            "id": str(self.id),
-            "body": str(self.body),
-            "auth": self.auth.as_dict(),
-        }
+    auth: AuthHeader = attrs.field(converter=lambda d: AuthHeader.from_dict(d))
 
     @classmethod
     def from_dict(cls, d: dict[str, typing.Any]) -> Event:
@@ -86,9 +67,6 @@ class Event:
             body=d["body"],
             auth=d["auth"],
         )
-
-
-event_type_octet_validator = (attrs.validators.in_(range(0, 0x100)),)
 
 
 @attrs.define
@@ -252,9 +230,6 @@ class EventBody:
 @attrs.define
 class EventResponse:
     id: UUID = attrs.field(converter=UUID)
-
-    def as_dict(self):
-        return {"id": str(self.id)}
 
     @classmethod
     def from_dict(cls, d: dict[str, typing.Any]) -> EventResponse:

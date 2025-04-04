@@ -31,15 +31,7 @@ message_content_validator = (
 class Message:
     body: dapp.EventBody = attrs.field(converter=lambda d: dapp.EventBody.from_str(d))
 
-    auth: dapp.AuthHeader = attrs.field(
-        converter=lambda d: dapp.AuthHeader.from_dict(d)
-    )
-
-    def as_dict(self):
-        return {
-            "body": self.body,
-            "auth": self.auth.as_dict(),
-        }
+    auth: dapp.AuthHeader = attrs.field(converter=lambda d: dapp.AuthHeader.from_dict(d))
 
     @classmethod
     def from_dict(cls, d: dict[str, typing.Any]) -> Message:
@@ -55,12 +47,6 @@ class MessageCreateInput:
 
     content: str = attrs.field(validator=message_content_validator)
 
-    def as_dict(self):
-        return {
-            "channel": str(self.channel),
-            "content": self.content,
-        }
-
 
 @attrs.define
 class MessageUpdateInput:
@@ -69,10 +55,3 @@ class MessageUpdateInput:
     channel: UUIDLike = attrs.field(converter=UUID)
 
     content: str = attrs.field(validator=message_content_validator)
-
-    def as_dict(self):
-        return {
-            "message": str(self.message),
-            "channel": str(self.channel),
-            "content": self.content,
-        }

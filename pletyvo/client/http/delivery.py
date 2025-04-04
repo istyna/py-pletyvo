@@ -18,6 +18,7 @@ from pletyvo.protocol import (
     dapp,
     delivery,
 )
+from pletyvo.serializer import to_dict
 
 if typing.TYPE_CHECKING:
     from . import abc
@@ -50,7 +51,7 @@ class ChannelService(delivery.abc.ChannelService):
             version=dapp.EventBodyType.BASIC,
             data_type=dapp.DataType.JSON,
             event_type=delivery.CHANNEL_CREATE_EVENT_TYPE,
-            value=input.as_dict(),
+            value=to_dict(input),
         )
         return await self._event_service.create(
             input=dapp.EventInput(
@@ -64,7 +65,7 @@ class ChannelService(delivery.abc.ChannelService):
             version=dapp.EventBodyType.BASIC,
             data_type=dapp.DataType.JSON,
             event_type=delivery.CHANNEL_UPDATE_EVENT_TYPE,
-            value=input.as_dict(),
+            value=to_dict(input),
         )
         return await self._event_service.create(
             input=dapp.EventInput(
@@ -104,7 +105,7 @@ class PostService(delivery.abc.PostService):
             version=dapp.EventBodyType.BASIC,
             data_type=dapp.DataType.JSON,
             event_type=delivery.POST_CREATE_EVENT_TYPE,
-            value=input.as_dict(),
+            value=to_dict(input),
         )
         return await self._event_service.create(
             input=dapp.EventInput(
@@ -118,7 +119,7 @@ class PostService(delivery.abc.PostService):
             version=dapp.EventBodyType.BASIC,
             data_type=dapp.DataType.JSON,
             event_type=delivery.POST_UPDATE_EVENT_TYPE,
-            value=input.as_dict(),
+            value=to_dict(input),
         )
         return await self._event_service.create(
             input=dapp.EventInput(
@@ -161,7 +162,7 @@ class MessageService(delivery.abc.MessageService):
             version=dapp.EventBodyType.BASIC,
             data_type=dapp.DataType.JSON,
             event_type=delivery.MESSAGE_CREATE_EVENT_TYPE,
-            value=input.as_dict(),
+            value=to_dict(input),
         )
         return await self._event_service.create(
             input=dapp.EventInput(
