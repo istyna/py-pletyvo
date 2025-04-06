@@ -28,9 +28,6 @@ def hash_data_validator(inst, attrib, val):
         raise ValueError(error_message)
 
 
-hash_data_validators = (hash_data_validator,)
-
-
 @attrs.define
 class Hash:
     data: bytes = attrs.field(validator=hash_data_validator)
@@ -53,4 +50,6 @@ class Hash:
 
     @classmethod
     def gen(cls, sch: int, data: bytes) -> Hash:
-        return cls(blake3(bytes((sch,)) + data).digest(length=32))
+        data = bytes((sch,)) + data
+        data = blake3(data).digest(length=32)
+        return cls(data)

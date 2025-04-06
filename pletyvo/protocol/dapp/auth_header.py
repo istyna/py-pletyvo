@@ -23,7 +23,7 @@ class AuthHeader:
 
     @property
     def author(self) -> Hash:
-        return Hash(self.pub)
+        return Hash.gen(self.sch, self.pub)
 
     @classmethod
     def from_dict(cls, d: dict[str, typing.Any]) -> AuthHeader:
