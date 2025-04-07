@@ -31,7 +31,7 @@ if typing.TYPE_CHECKING:
 event_type_octet_validator = (attrs.validators.in_(range(0, 0x100)),)
 
 
-@attrs.define(slots=False)
+@attrs.define
 class EventHeader:
     id: UUIDLike = attrs.field(converter=UUID)
 
@@ -45,7 +45,7 @@ class EventHeader:
         )
 
 
-@attrs.define(slots=False)
+@attrs.define
 class EventInput:
     body: EventBody = attrs.field()
 
@@ -177,6 +177,9 @@ class EventBody:
 
     def __bytes__(self) -> bytes:
         return bytes(self.payload)
+    
+    def __hash__(self) -> int:
+        return hash(bytes(self))
 
     @property
     def version(self) -> int:

@@ -13,7 +13,7 @@ import attrs
 from .hash import Hash
 
 
-@attrs.define
+@attrs.define(hash=True)
 class AuthHeader:
     sch: int = attrs.field()
 

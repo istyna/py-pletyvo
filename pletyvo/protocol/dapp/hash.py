@@ -28,7 +28,7 @@ def hash_data_validator(inst, attrib, val):
         raise ValueError(error_message)
 
 
-@attrs.define
+@attrs.define(hash=True)
 class Hash:
     data: bytes = attrs.field(validator=hash_data_validator)
 
