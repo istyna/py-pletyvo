@@ -18,6 +18,9 @@ from . import abc
 from .auth_header import AuthHeader
 from .hash import Hash
 
+if typing.TYPE_CHECKING:
+    from os import PathLike
+
 
 class Schema:
     ED25519 = 1
@@ -31,6 +34,11 @@ class ED25519(abc.Signer):
             else Ed25519PrivateKey.generate()
         )
         self._publik = self._privatek.public_key()
+
+    @classmethod
+    def from_file(cls, path: str | PathLike[str]) -> ED25519:
+        with open(path, "rb") as f:
+            return cls(f.read())
 
     @classmethod
     def schema(cls) -> int:
