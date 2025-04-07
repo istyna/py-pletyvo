@@ -157,19 +157,11 @@ class MessageService(delivery.abc.MessageService):
         )
         return delivery.Message.from_dict(response)
 
-    async def create(self, input: delivery.MessageCreateInput) -> dapp.EventResponse:
-        body = dapp.EventBody.create(
-            version=dapp.EventBodyType.BASIC,
-            data_type=dapp.DataType.JSON,
-            event_type=delivery.MESSAGE_CREATE_EVENT_TYPE,
-            value=as_dict(input),
-        )
-        return await self._event_service.create(
-            input=dapp.EventInput(
-                body=body,
-                auth=self._signer.auth(bytes(body)),
-            )
-        )
+    async def send(self, message: delivery.Message) -> None:
+        try:
+            await self._engine.post("/api/delivery/v1/channel/send", body=as_dict(message))
+        except Exception:
+            pass
 
 
 class DeliveryService:
