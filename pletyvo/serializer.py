@@ -22,8 +22,6 @@ from pletyvo.protocol.delivery.channel import (
 )
 from pletyvo.protocol.delivery.message import (
     Message,
-    MessageCreateInput,
-    MessageUpdateInput,
 )
 from pletyvo.protocol.delivery.post import (
     Post,
@@ -106,27 +104,6 @@ def _as_dict_delivery_message(instance: Message) -> dict[str, Any]:
     return {
         "body": instance.body,
         "auth": as_dict(instance.auth),
-    }
-
-
-@as_dict.instance(MessageCreateInput)
-def _as_dict_delivery_message_create_input(
-    instance: MessageCreateInput,
-) -> dict[str, Any]:
-    return {
-        "channel": str(instance.channel),
-        "content": instance.content,
-    }
-
-
-@as_dict.instance(MessageUpdateInput)
-def _as_dict_delivery_message_update_input(
-    instance: MessageUpdateInput,
-) -> dict[str, Any]:
-    return {
-        "message": str(instance.message),
-        "channel": str(instance.channel),
-        "content": instance.content,
     }
 
 

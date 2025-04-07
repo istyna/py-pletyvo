@@ -17,8 +17,6 @@ __all__: typing.Sequence[str] = (
     "PostCreateInput",
     "PostUpdateInput",
     "Message",
-    "MessageCreateInput",
-    "MessageUpdateInput",
 )
 
 import typing
@@ -43,6 +41,4 @@ from .post import (
 )
 from .message import (
     Message,
-    MessageCreateInput,
-    MessageUpdateInput,
 )

@@ -19,7 +19,7 @@ if typing.TYPE_CHECKING:
         QueryOption,
         UUIDLike,
     )
-    from pletyvo.protocol import dapp
+    from pletyvo.protocol import dapp, delivery
     from .channel import (
         Channel,
         ChannelCreateInput,
@@ -32,7 +32,6 @@ if typing.TYPE_CHECKING:
     )
     from .message import (
         Message,
-        MessageCreateInput,
     )
 
 
@@ -59,7 +58,7 @@ class MessageService(ABC):
     ) -> typing.Optional[Message]: ...
 
     @abstractmethod
-    async def create(self, input: MessageCreateInput) -> dapp.EventResponse: ...
+    async def send(self, message: delivery.MessageCreateInput) -> None: ...
 
 
 class PostService(ABC):

@@ -5,8 +5,6 @@ from __future__ import annotations
 
 __all__: typing.Sequence[str] = (
     "Message",
-    "MessageCreateInput",
-    "MessageUpdateInput",
 )
 
 import typing
@@ -27,7 +25,7 @@ message_content_validator = (
 )  # type: ignore[var-annotated]
 
 
-@attrs.define
+@attrs.define(hash=True)
 class Message:
     body: dapp.EventBody = attrs.field(converter=lambda d: dapp.EventBody.from_str(d))
 
@@ -39,19 +37,3 @@ class Message:
             body=d["body"],
             auth=d["auth"],
         )
-
-
-@attrs.define
-class MessageCreateInput:
-    channel: UUIDLike = attrs.field(converter=UUID)
-
-    content: str = attrs.field(validator=message_content_validator)
-
-
-@attrs.define
-class MessageUpdateInput:
-    message: UUIDLike = attrs.field(converter=UUID)
-
-    channel: UUIDLike = attrs.field(converter=UUID)
-
-    content: str = attrs.field(validator=message_content_validator)
