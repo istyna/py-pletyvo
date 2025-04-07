@@ -187,8 +187,8 @@ class EventBody:
         self.payload[0] = version
 
     @property
-    def data_type(self) -> int:
-        return self.payload[1]
+    def data_type(self) -> DataType:
+        return DataType(self.payload[1])
 
     @data_type.setter
     def data_type(self, data_type: DataType) -> None:

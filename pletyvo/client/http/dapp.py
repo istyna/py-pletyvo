@@ -13,7 +13,7 @@ import typing
 
 from pletyvo.protocol import dapp
 from pletyvo.types import uuidlike_as_uuid
-from pletyvo.serializer import to_dict
+from pletyvo.serializer import as_dict
 
 if typing.TYPE_CHECKING:
     from . import abc
@@ -53,7 +53,7 @@ class EventService(dapp.abc.EventService):
 
     async def create(self, input: dapp.EventInput) -> dapp.EventResponse:
         response: JSONType = await self._engine.post(
-            "/api/dapp/v1/events", body=to_dict(input)
+            "/api/dapp/v1/events", body=as_dict(input)
         )
         return dapp.EventResponse.from_dict(response)
 

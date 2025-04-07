@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-__all__: typing.Sequence[str] = ("to_dict",)
+__all__: typing.Sequence[str] = ("as_dict",)
 
 import typing
 
@@ -34,17 +34,12 @@ from pletyvo.protocol.delivery.post import (
 from typing import Any
 
 
-###
-# to_dict
-###
-
-
 @typeclass
-def to_dict(instance) -> dict: ...
+def as_dict(instance) -> dict: ...
 
 
-@to_dict.instance(AuthHeader)
-def _to_dict_dapp_auth_header(instance: AuthHeader):
+@as_dict.instance(AuthHeader)
+def _as_dict_dapp_auth_header(instance: AuthHeader):
     from base64 import b64encode
 
     return {
@@ -54,32 +49,32 @@ def _to_dict_dapp_auth_header(instance: AuthHeader):
     }
 
 
-@to_dict.instance(EventInput)
-def _to_dict_dapp_event_input(instance: EventInput):
+@as_dict.instance(EventInput)
+def _as_dict_dapp_event_input(instance: EventInput):
     return {
         "body": str(instance.body),
-        "auth": to_dict(instance.auth),
+        "auth": as_dict(instance.auth),
     }
 
 
-@to_dict.instance(Event)
-def _to_dict_dapp_event(instance: Event):
+@as_dict.instance(Event)
+def _as_dict_dapp_event(instance: Event):
     return {
         "id": str(instance.id),
         "body": str(instance.body),
-        "auth": to_dict(instance.auth),
+        "auth": as_dict(instance.auth),
     }
 
 
-@to_dict.instance(EventResponse)
-def _to_dict_dapp_event_response(instance: EventResponse):
+@as_dict.instance(EventResponse)
+def _as_dict_dapp_event_response(instance: EventResponse):
     return {
         "id": str(instance.id),
     }
 
 
-@to_dict.instance(Channel)
-def _to_dict_delivery_channel(instance: Channel) -> dict[str, Any]:
+@as_dict.instance(Channel)
+def _as_dict_delivery_channel(instance: Channel) -> dict[str, Any]:
     return {
         "id": str(instance.id),
         "hash": str(instance.hash),
@@ -88,8 +83,8 @@ def _to_dict_delivery_channel(instance: Channel) -> dict[str, Any]:
     }
 
 
-@to_dict.instance(ChannelCreateInput)
-def _to_dict_delivery_channel_create_input(
+@as_dict.instance(ChannelCreateInput)
+def _as_dict_delivery_channel_create_input(
     instance: ChannelCreateInput,
 ) -> dict[str, Any]:
     return {
@@ -97,8 +92,8 @@ def _to_dict_delivery_channel_create_input(
     }
 
 
-@to_dict.instance(ChannelUpdateInput)
-def _to_dict_delivery_channel_update_input(
+@as_dict.instance(ChannelUpdateInput)
+def _as_dict_delivery_channel_update_input(
     instance: ChannelUpdateInput,
 ) -> dict[str, Any]:
     return {
@@ -106,16 +101,16 @@ def _to_dict_delivery_channel_update_input(
     }
 
 
-@to_dict.instance(Message)
-def _to_dict_delivery_message(instance: Message) -> dict[str, Any]:
+@as_dict.instance(Message)
+def _as_dict_delivery_message(instance: Message) -> dict[str, Any]:
     return {
         "body": instance.body,
-        "auth": to_dict(instance.auth),
+        "auth": as_dict(instance.auth),
     }
 
 
-@to_dict.instance(MessageCreateInput)
-def _to_dict_delivery_message_create_input(
+@as_dict.instance(MessageCreateInput)
+def _as_dict_delivery_message_create_input(
     instance: MessageCreateInput,
 ) -> dict[str, Any]:
     return {
@@ -124,8 +119,8 @@ def _to_dict_delivery_message_create_input(
     }
 
 
-@to_dict.instance(MessageUpdateInput)
-def _to_dict_delivery_message_update_input(
+@as_dict.instance(MessageUpdateInput)
+def _as_dict_delivery_message_update_input(
     instance: MessageUpdateInput,
 ) -> dict[str, Any]:
     return {
@@ -135,8 +130,8 @@ def _to_dict_delivery_message_update_input(
     }
 
 
-@to_dict.instance(Post)
-def _to_dict_delivery_post(instance: Post) -> dict[str, Any]:
+@as_dict.instance(Post)
+def _as_dict_delivery_post(instance: Post) -> dict[str, Any]:
     return {
         "id": str(instance.id),
         "hash": str(instance.hash),
@@ -146,8 +141,8 @@ def _to_dict_delivery_post(instance: Post) -> dict[str, Any]:
     }
 
 
-@to_dict.instance(PostCreateInput)
-def _to_dict_delivery_post_create_input(
+@as_dict.instance(PostCreateInput)
+def _as_dict_delivery_post_create_input(
     instance: PostCreateInput,
 ) -> dict[str, Any]:
     return {
@@ -155,8 +150,8 @@ def _to_dict_delivery_post_create_input(
         "content": instance.content,
     }
 
-@to_dict.instance(PostUpdateInput)
-def _to_dict_delivery_post_update_input(
+@as_dict.instance(PostUpdateInput)
+def _as_dict_delivery_post_update_input(
     instance: PostUpdateInput,
 ) -> dict[str, Any]:
     return {
