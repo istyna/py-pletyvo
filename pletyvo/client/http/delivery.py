@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 from __future__ import annotations
+import contextlib
 
 from pletyvo.protocol.delivery.post import Post, PostCreateInput, PostUpdateInput
 
@@ -12,6 +13,8 @@ __all__: typing.Sequence[str] = (
 )
 
 import typing
+
+from aiohttp import ClientResponseError
 
 from pletyvo.types import QueryOption, uuidlike_as_uuid
 from pletyvo.protocol import (
@@ -158,10 +161,10 @@ class MessageService(delivery.abc.MessageService):
         return delivery.Message.from_dict(response)
 
     async def send(self, message: delivery.Message) -> None:
-        try:
-            await self._engine.post("/api/delivery/v1/channel/send", body=as_dict(message))
-        except Exception:
-            pass
+        with contextlib.suppress(ClientResponseError):
+            await self._engine.post(
+                "/api/delivery/v1/channel/send", body=as_dict(message)
+            )
 
 
 class DeliveryService:
