@@ -14,7 +14,7 @@ __all__: typing.Sequence[str] = (
 
 import typing
 
-from aiohttp import ClientResponseError
+from aiohttp.client_exceptions import ContentTypeError as AiohttpContentTypeError
 
 from pletyvo.types import QueryOption, uuidlike_as_uuid
 from pletyvo.protocol import (
@@ -161,7 +161,7 @@ class MessageService(delivery.abc.MessageService):
         return delivery.Message.from_dict(response)
 
     async def send(self, message: delivery.Message) -> None:
-        with contextlib.suppress(ClientResponseError):
+        with contextlib.suppress(AiohttpContentTypeError):
             await self._engine.post(
                 "/api/delivery/v1/channel/send", body=as_dict(message)
             )
