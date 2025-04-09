@@ -127,7 +127,7 @@ class EventBody:
     @classmethod
     def create(
         cls,
-        version: int,
+        version: EventBodyType,
         data_type: DataType,
         event_type: EventType,
         value: typing.Any,
