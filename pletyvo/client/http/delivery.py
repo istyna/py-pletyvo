@@ -137,11 +137,9 @@ class MessageService(delivery.abc.MessageService):
         self,
         engine: abc.HTTPClient,
         signer: dapp.abc.Signer,
-        event_service: dapp.abc.EventService,
     ) -> None:
         self._engine = engine
         self._signer = signer
-        self._event_service = event_service
 
     async def get(
         self, channel: UUIDLike, option: typing.Optional[QueryOption] = None
@@ -178,4 +176,4 @@ class DeliveryService:
     ):
         self.channel = ChannelService(engine, signer, event_service)
         self.post = PostService(engine, signer, event_service)
-        self.message = MessageService(engine, signer, event_service)
+        self.message = MessageService(engine, signer)
