@@ -28,14 +28,11 @@ if typing.TYPE_CHECKING:
     from pletyvo.types import UUIDLike
 
 
-event_type_octet_validator = (attrs.validators.in_(range(0, 0x100)),)
-
-
 @attrs.define
 class EventHeader:
-    id: UUIDLike = attrs.field(converter=UUID)
+    id: UUIDLike = attrs.field(converter=lambda u: u if isinstance(u, UUID) else UUID(u))
 
-    hash: Hash = attrs.field(converter=lambda s: Hash.from_str(s))
+    hash: Hash = attrs.field(converter=lambda s: Hash.from_str(s) if isinstance(s, str) else s)
 
     @classmethod
     def from_dict(cls, d: dict[str, typing.Any]) -> EventHeader:
@@ -54,7 +51,7 @@ class EventInput:
 
 @attrs.define
 class Event:
-    id: UUID = attrs.field(converter=UUID)
+    id: UUID = attrs.field(converter=lambda u: u if isinstance(u, UUID) else UUID(u))
 
     body: EventBody = attrs.field(converter=lambda s: EventBody.from_str(s))
 
@@ -71,9 +68,9 @@ class Event:
 
 @attrs.define
 class EventType:
-    major: int = attrs.field(validator=event_type_octet_validator)
+    major: int = attrs.field(validator=attrs.validators.in_(range(0, 0x100)))
 
-    minor: int = attrs.field(validator=event_type_octet_validator)
+    minor: int = attrs.field(validator=attrs.validators.in_(range(0, 0x100)))
 
     def __bytes__(self) -> bytes:
         return bytes(tuple(self))
@@ -177,7 +174,7 @@ class EventBody:
 
     def __bytes__(self) -> bytes:
         return bytes(self.payload)
-    
+
     def __hash__(self) -> int:
         return hash(bytes(self))
 
@@ -232,7 +229,7 @@ class EventBody:
 
 @attrs.define
 class EventResponse:
-    id: UUID = attrs.field(converter=UUID)
+    id: UUID = attrs.field(converter=lambda u: u if isinstance(u, UUID) else UUID(u))
 
     @classmethod
     def from_dict(cls, d: dict[str, typing.Any]) -> EventResponse:

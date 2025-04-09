@@ -32,13 +32,13 @@ def hash_from_str(s: str) -> Hash:
 
 @attrs.define
 class Post:
-    id: UUIDLike = attrs.field(converter=UUID)
+    id: UUIDLike = attrs.field(converter=lambda u: u if isinstance(u, UUID) else UUID(u))
 
     hash: Hash = attrs.field(converter=hash_from_str)
 
     author: Hash = attrs.field(converter=hash_from_str)
 
-    channel: UUIDLike = attrs.field(converter=UUID)
+    channel: UUIDLike = attrs.field(converter=lambda u: u if isinstance(u, UUID) else UUID(u))
 
     content: str = attrs.field(validator=post_content_validator)
 
@@ -55,14 +55,14 @@ class Post:
 
 @attrs.define
 class PostCreateInput:
-    channel: UUIDLike = attrs.field(converter=UUID)
+    channel: UUIDLike = attrs.field(converter=lambda u: u if isinstance(u, UUID) else UUID(u))
 
     content: str = attrs.field(validator=post_content_validator)
 
 
 @attrs.define
 class PostUpdateInput:
-    channel: UUIDLike = attrs.field(converter=UUID)
+    channel: UUIDLike = attrs.field(converter=lambda u: u if isinstance(u, UUID) else UUID(u))
 
     post: Hash = attrs.field(converter=hash_from_str)
 

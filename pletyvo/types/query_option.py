@@ -13,10 +13,8 @@ import attrs
 NIL_UUID = UUID("00000000-0000-0000-0000-000000000000")
 
 
-def query_option_uuid_converter(s) -> UUID:
-    if isinstance(s, UUID):
-        return s
-    return UUID(s)
+def uuid_converter(u: str) -> UUID:
+    return u if isinstance(u, UUID) else UUID(u)
 
 
 @attrs.define
@@ -25,9 +23,9 @@ class QueryOption:
 
     order: bool = attrs.field(default=False)
 
-    after: UUID = attrs.field(default=NIL_UUID, converter=query_option_uuid_converter)
+    after: UUID = attrs.field(default=NIL_UUID, converter=uuid_converter)
 
-    before: UUID = attrs.field(default=NIL_UUID, converter=query_option_uuid_converter)
+    before: UUID = attrs.field(default=NIL_UUID, converter=uuid_converter)
 
     def __str__(self) -> str:
         buf: list[str] = []
