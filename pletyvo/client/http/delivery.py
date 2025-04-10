@@ -44,9 +44,7 @@ class ChannelService(delivery.abc.ChannelService):
 
     async def get_by_id(self, id: UUIDLike) -> delivery.Channel:
         id = uuidlike_converter(id)
-        response: JSONType = await self._engine.get(
-            f"/api/delivery/v1/channel/{id}"
-        )
+        response: JSONType = await self._engine.get(f"/api/delivery/v1/channel/{id}")
         return delivery.Channel.from_dict(response)
 
     async def create(self, input: delivery.ChannelCreateInput) -> dapp.EventResponse:
@@ -146,11 +144,10 @@ class MessageService(delivery.abc.MessageService):
 
     async def get(
         self, channel: UUIDLike, option: typing.Optional[QueryOption] = None
-    ) -> typing.List[delivery.Message]:
+    ) -> list[delivery.Message]:
         channel = uuidlike_converter(channel)
         response: JSONType = await self._engine.get(
-            f"/api/delivery/v1/channel/{channel}/messages"
-            + str(option or "")
+            f"/api/delivery/v1/channel/{channel}/messages" + str(option or "")
         )
         return [delivery.Message.from_dict(message) for message in response]
 

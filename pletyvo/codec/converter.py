@@ -25,13 +25,17 @@ def dapp_hash_converter(h: dapp.Hash | str) -> dapp.Hash:
     return h
 
 
-def dapp_auth_header_converter(d: dapp.AuthHeader | dict[str, typing.Any]) -> dapp.AuthHeader:
+def dapp_auth_header_converter(
+    d: dapp.AuthHeader | dict[str, typing.Any],
+) -> dapp.AuthHeader:
     if isinstance(d, dict):
         return dapp.AuthHeader.from_dict(d)
     return d
 
 
-def dapp_event_body_converter(b: dapp.EventBody | str | bytes | bytearray) -> dapp.EventBody:
+def dapp_event_body_converter(
+    b: dapp.EventBody | str | bytes | bytearray,
+) -> dapp.EventBody:
     if isinstance(b, str):
         return dapp.EventBody.from_str(b)
     elif isinstance(b, bytes):

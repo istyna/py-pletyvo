@@ -53,9 +53,7 @@ class HashService(ABC):
 
 class EventService(ABC):
     @abstractmethod
-    async def get(
-        self, option: typing.Optional[QueryOption] = None
-    ) -> typing.List[Event]: ...
+    async def get(self, option: typing.Optional[QueryOption] = None) -> list[Event]: ...
 
     @abstractmethod
     async def get_by_id(self, id: UUIDLike) -> typing.Optional[Event]: ...

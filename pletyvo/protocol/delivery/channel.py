@@ -12,7 +12,6 @@ __all__: typing.Sequence[str] = (
 import typing
 
 import attrs
-from attrs.validators import instance_of
 
 from pletyvo.protocol import dapp
 from pletyvo.codec.converter import dapp_hash_converter
@@ -28,7 +27,7 @@ class Channel(dapp.EventHeader):
     author: dapp.Hash = attrs.field(converter=dapp_hash_converter)
 
     @classmethod
-    def from_dict(cls, d: dict[str, typing.Any]) -> Channel:                 
+    def from_dict(cls, d: dict[str, typing.Any]) -> Channel:
         return cls(
             id=d["id"],
             hash=d["hash"],

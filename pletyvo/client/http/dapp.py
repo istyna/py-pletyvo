@@ -47,9 +47,7 @@ class EventService(dapp.abc.EventService):
 
     async def get_by_id(self, id: UUIDLike) -> dapp.Event:
         id = uuidlike_converter(id)
-        response: JSONType = await self._engine.get(
-            f"/api/dapp/v1/events/{id}"
-        )
+        response: JSONType = await self._engine.get(f"/api/dapp/v1/events/{id}")
         return dapp.Event.from_dict(response)
 
     async def create(self, input: dapp.EventInput) -> dapp.EventResponse:
