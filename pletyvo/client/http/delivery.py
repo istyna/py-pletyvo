@@ -4,8 +4,6 @@
 from __future__ import annotations
 import contextlib
 
-from pletyvo.protocol.delivery.post import Post, PostCreateInput, PostUpdateInput
-
 __all__: typing.Sequence[str] = (
     "ChannelService",
     "MessageService",
@@ -16,12 +14,13 @@ import typing
 
 from aiohttp.client_exceptions import ContentTypeError as AiohttpContentTypeError
 
-from pletyvo.types import QueryOption, uuidlike_as_uuid
+from pletyvo.types import QueryOption
+from pletyvo.codec.serializer import as_dict
+from pletyvo.codec.converter import uuidlike_converter
 from pletyvo.protocol import (
     dapp,
     delivery,
 )
-from pletyvo.serializer import as_dict
 
 if typing.TYPE_CHECKING:
     from . import abc
@@ -44,8 +43,9 @@ class ChannelService(delivery.abc.ChannelService):
         self._event_service = event_service
 
     async def get_by_id(self, id: UUIDLike) -> delivery.Channel:
+        id = uuidlike_converter(id)
         response: JSONType = await self._engine.get(
-            f"/api/delivery/v1/channel/{uuidlike_as_uuid(id)}"
+            f"/api/delivery/v1/channel/{id}"
         )
         return delivery.Channel.from_dict(response)
 
@@ -91,19 +91,22 @@ class PostService(delivery.abc.PostService):
 
     async def get(
         self, channel: UUIDLike, option: typing.Optional[QueryOption] = None
-    ) -> list[Post]:
+    ) -> list[delivery.Post]:
+        channel = uuidlike_converter(channel)
+        channel = uuidlike_converter(channel)
         response: JSONType = await self._engine.get(
-            f"/api/delivery/v1/channel/{uuidlike_as_uuid(channel)}/posts{str(option or '')}"  # noqa: E501
+            f"/api/delivery/v1/channel/{channel}/posts{str(option or '')}"  # noqa: E501
         )
         return [delivery.Post.from_dict(post) for post in response]
 
-    async def get_by_id(self, channel: UUIDLike, id: UUIDLike) -> Post:
+    async def get_by_id(self, channel: UUIDLike, id: UUIDLike) -> delivery.Post:
+        channel, id = uuidlike_converter(channel), uuidlike_converter(id)
         response: JSONType = await self._engine.get(
-            f"/api/delivery/v1/channel/{uuidlike_as_uuid(channel)}/posts/{uuidlike_as_uuid(id)}"
+            f"/api/delivery/v1/channel/{channel}/posts/{id}"
         )
         return delivery.Post.from_dict(response)
 
-    async def create(self, input: PostCreateInput) -> dapp.EventResponse:
+    async def create(self, input: delivery.PostCreateInput) -> dapp.EventResponse:
         body = dapp.EventBody.create(
             version=dapp.EventBodyType.BASIC,
             data_type=dapp.DataType.JSON,
@@ -117,7 +120,7 @@ class PostService(delivery.abc.PostService):
             )
         )
 
-    async def update(self, input: PostUpdateInput) -> dapp.EventResponse:
+    async def update(self, input: delivery.PostUpdateInput) -> dapp.EventResponse:
         body = dapp.EventBody.create(
             version=dapp.EventBodyType.BASIC,
             data_type=dapp.DataType.JSON,
@@ -144,8 +147,9 @@ class MessageService(delivery.abc.MessageService):
     async def get(
         self, channel: UUIDLike, option: typing.Optional[QueryOption] = None
     ) -> typing.List[delivery.Message]:
+        channel = uuidlike_converter(channel)
         response: JSONType = await self._engine.get(
-            f"/api/delivery/v1/channel/{uuidlike_as_uuid(channel)}/messages"
+            f"/api/delivery/v1/channel/{channel}/messages"
             + str(option or "")
         )
         return [delivery.Message.from_dict(message) for message in response]
@@ -153,8 +157,9 @@ class MessageService(delivery.abc.MessageService):
     async def get_by_id(
         self, channel: UUIDLike, id: UUIDLike
     ) -> delivery.Message | None:
+        channel = uuidlike_converter(channel)
         response: JSONType = await self._engine.get(
-            f"/api/delivery/v1/channels/{uuidlike_as_uuid(channel)}/messages/{uuidlike_as_uuid(id)}"
+            f"/api/delivery/v1/channels/{channel}/messages/{uuidlike_converter(id)}"
         )
         return delivery.Message.from_dict(response)
 

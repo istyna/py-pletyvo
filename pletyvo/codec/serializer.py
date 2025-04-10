@@ -137,6 +137,7 @@ def _as_dict_delivery_post_create_input(
         "content": instance.content,
     }
 
+
 @as_dict.instance(PostUpdateInput)
 def _as_dict_delivery_post_update_input(
     instance: PostUpdateInput,

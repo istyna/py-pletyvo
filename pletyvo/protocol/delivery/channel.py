@@ -12,8 +12,10 @@ __all__: typing.Sequence[str] = (
 import typing
 
 import attrs
+from attrs.validators import instance_of
 
 from pletyvo.protocol import dapp
+from pletyvo.codec.converter import dapp_hash_converter
 
 
 channel_name_validator = attrs.validators.max_len(40)  # type: ignore[var-annotated]
@@ -23,10 +25,10 @@ channel_name_validator = attrs.validators.max_len(40)  # type: ignore[var-annota
 class Channel(dapp.EventHeader):
     name: str = attrs.field(validator=channel_name_validator)
 
-    author: dapp.Hash = attrs.field(converter=lambda s: dapp.Hash.from_str(s))
+    author: dapp.Hash = attrs.field(converter=dapp_hash_converter)
 
     @classmethod
-    def from_dict(cls, d: dict[str, typing.Any]) -> Channel:
+    def from_dict(cls, d: dict[str, typing.Any]) -> Channel:                 
         return cls(
             id=d["id"],
             hash=d["hash"],

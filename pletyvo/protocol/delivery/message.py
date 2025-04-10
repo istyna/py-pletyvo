@@ -14,6 +14,12 @@ from uuid import UUID
 import attrs
 
 from pletyvo.protocol import dapp
+from pletyvo.codec.converter import (
+    dapp_hash_converter,
+    dapp_auth_header_converter,
+    dapp_event_body_converter,
+    uuidlike_converter,
+)
 
 
 message_content_validator = (
@@ -24,17 +30,9 @@ message_content_validator = (
 
 @attrs.define(hash=True)
 class Message:
-    body: dapp.EventBody = attrs.field(
-        converter=lambda s: s
-        if isinstance(s, dapp.EventBody)
-        else dapp.EventBody.from_str(s)
-    )
+    body: dapp.EventBody = attrs.field(converter=dapp_event_body_converter)
 
-    auth: dapp.AuthHeader = attrs.field(
-        converter=lambda d: d
-        if isinstance(d, dapp.AuthHeader)
-        else dapp.AuthHeader.from_dict(d)
-    )
+    auth: dapp.AuthHeader = attrs.field(converter=dapp_auth_header_converter)
 
     @classmethod
     def from_dict(cls, d: dict[str, typing.Any]) -> Message:
@@ -46,8 +44,8 @@ class Message:
 
 @attrs.define
 class MessageInput:
-    id: UUID = attrs.field(converter=lambda u: u if isinstance(u, UUID) else UUID(u))
+    id: UUID = attrs.field(converter=uuidlike_converter)
 
-    channel: dapp.Hash = attrs.field(converter=lambda s: dapp.Hash.from_str(s) if isinstance(s, str) else s)
+    channel: dapp.Hash = attrs.field(converter=dapp_hash_converter)
 
     content: str = attrs.field(validator=message_content_validator)

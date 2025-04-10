@@ -19,58 +19,64 @@ from uuid import UUID
 from enum import IntEnum
 
 import attrs
+from attrs.validators import in_, instance_of
 
 from .hash import Hash
 from .auth_header import AuthHeader
 from pletyvo.utils import padd
+from pletyvo.codec.converter import (
+    dapp_hash_converter,
+    dapp_event_body_converter,
+    dapp_auth_header_converter,
+)
 
 if typing.TYPE_CHECKING:
     from pletyvo.types import UUIDLike
 
 
+def uuid_converter(u: UUIDLike) -> UUID:
+    return u if isinstance(u, UUID) else UUID(u)
+
+
+class DataType(IntEnum):
+    JSON = 1
+
+
+class EventBodyType(IntEnum):
+    BASIC = 1
+    LINKED = 2
+    MAX = 3
+
+    @staticmethod
+    def get_event_body_size(version: int) -> int:
+        return {
+            EventBodyType.BASIC: 4,
+            EventBodyType.LINKED: 36,
+        }[EventBodyType(version)]
+
+
 @attrs.define
 class EventHeader:
-    id: UUIDLike = attrs.field(converter=lambda u: u if isinstance(u, UUID) else UUID(u))
+    id: UUID = attrs.field(converter=uuid_converter)
 
-    hash: Hash = attrs.field(converter=lambda s: Hash.from_str(s) if isinstance(s, str) else s)
+    hash: Hash = attrs.field(converter=dapp_hash_converter)
 
     @classmethod
     def from_dict(cls, d: dict[str, typing.Any]) -> EventHeader:
         return cls(
             id=d["id"],
-            hash=d["author"],
+            hash=d["hash"],
         )
 
 
-@attrs.define
-class EventInput:
-    body: EventBody = attrs.field()
-
-    auth: AuthHeader = attrs.field()
-
-
-@attrs.define
-class Event:
-    id: UUID = attrs.field(converter=lambda u: u if isinstance(u, UUID) else UUID(u))
-
-    body: EventBody = attrs.field(converter=lambda s: EventBody.from_str(s))
-
-    auth: AuthHeader = attrs.field(converter=lambda d: AuthHeader.from_dict(d))
-
-    @classmethod
-    def from_dict(cls, d: dict[str, typing.Any]) -> Event:
-        return cls(
-            id=d["id"],
-            body=d["body"],
-            auth=d["auth"],
-        )
+event_type_octet_validator = (instance_of(int), in_(range(0, 0x100)))
 
 
 @attrs.define
 class EventType:
-    major: int = attrs.field(validator=attrs.validators.in_(range(0, 0x100)))
+    major: int = attrs.field(validator=event_type_octet_validator)
 
-    minor: int = attrs.field(validator=attrs.validators.in_(range(0, 0x100)))
+    minor: int = attrs.field(validator=event_type_octet_validator)
 
     def __bytes__(self) -> bytes:
         return bytes(tuple(self))
@@ -97,23 +103,6 @@ class EventType:
         return cls(value[0], value[1])
 
 
-class DataType(IntEnum):
-    JSON = 1
-
-
-class EventBodyType(IntEnum):
-    BASIC = 1
-    LINKED = 2
-    MAX = 3
-
-    @staticmethod
-    def get_event_body_size(version: int) -> int:
-        return {
-            EventBodyType.BASIC: 4,
-            EventBodyType.LINKED: 36,
-        }[EventBodyType(version)]
-
-
 @attrs.define
 class EventBody:
     # TODO: Implement `.from_json(...)` function, consider
@@ -122,7 +111,7 @@ class EventBody:
     # TODO: Since in client-side there is no need to use `.from_json(...)`,
     #       do not implement it for now. Keep it simple, stupid.
 
-    payload: bytearray = attrs.field()
+    payload: bytearray = attrs.field(validator=attrs.validators.instance_of(bytearray))
 
     @classmethod
     def create(
@@ -227,9 +216,33 @@ class EventBody:
         self.payload[4:36] = bytes(hash)
 
 
+@attrs.define()
+class EventInput:
+    body: EventBody = attrs.field(converter=dapp_event_body_converter)
+
+    auth: AuthHeader = attrs.field(converter=dapp_auth_header_converter)
+
+
+@attrs.define
+class Event:
+    id: UUID = attrs.field(converter=uuid_converter)
+
+    body: EventBody = attrs.field(converter=dapp_event_body_converter)
+
+    auth: AuthHeader = attrs.field(converter=dapp_auth_header_converter)
+
+    @classmethod
+    def from_dict(cls, d: dict[str, typing.Any]) -> Event:
+        return cls(
+            id=d["id"],
+            body=d["body"],
+            auth=d["auth"],
+        )
+
+
 @attrs.define
 class EventResponse:
-    id: UUID = attrs.field(converter=lambda u: u if isinstance(u, UUID) else UUID(u))
+    id: UUID = attrs.field(converter=uuid_converter)
 
     @classmethod
     def from_dict(cls, d: dict[str, typing.Any]) -> EventResponse:

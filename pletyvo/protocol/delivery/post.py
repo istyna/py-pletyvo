@@ -14,10 +14,11 @@ from uuid import UUID
 
 import attrs
 
-from pletyvo.protocol.dapp import Hash
-
-if typing.TYPE_CHECKING:
-    from pletyvo.types import UUIDLike
+from pletyvo.protocol import dapp
+from pletyvo.codec.converter import (
+    uuidlike_converter,
+    dapp_hash_converter,
+)
 
 
 post_content_validator = (
@@ -26,19 +27,15 @@ post_content_validator = (
 )  # type: ignore[var-annotated]
 
 
-def hash_from_str(s: str) -> Hash:
-    return Hash.from_str(s)
-
-
 @attrs.define
 class Post:
-    id: UUIDLike = attrs.field(converter=lambda u: u if isinstance(u, UUID) else UUID(u))
+    id: UUID = attrs.field(converter=uuidlike_converter)
 
-    hash: Hash = attrs.field(converter=hash_from_str)
+    hash: dapp.Hash = attrs.field(converter=dapp_hash_converter)
 
-    author: Hash = attrs.field(converter=hash_from_str)
+    author: dapp.Hash = attrs.field(converter=dapp_hash_converter)
 
-    channel: UUIDLike = attrs.field(converter=lambda u: u if isinstance(u, UUID) else UUID(u))
+    channel: UUID = attrs.field(converter=uuidlike_converter)
 
     content: str = attrs.field(validator=post_content_validator)
 
@@ -55,15 +52,15 @@ class Post:
 
 @attrs.define
 class PostCreateInput:
-    channel: UUIDLike = attrs.field(converter=lambda u: u if isinstance(u, UUID) else UUID(u))
+    channel: UUID = attrs.field(converter=uuidlike_converter)
 
     content: str = attrs.field(validator=post_content_validator)
 
 
 @attrs.define
 class PostUpdateInput:
-    channel: UUIDLike = attrs.field(converter=lambda u: u if isinstance(u, UUID) else UUID(u))
+    channel: UUID = attrs.field(converter=uuidlike_converter)
 
-    post: Hash = attrs.field(converter=hash_from_str)
+    post: dapp.Hash = attrs.field(converter=dapp_hash_converter)
 
     content: str = attrs.field(validator=post_content_validator)
