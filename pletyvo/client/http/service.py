@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-__all__: typing.Sequence[str] = ("Service",)
+__all__: typing.Sequence[str] = ("HTTPService",)
 
 import typing
 
@@ -15,7 +15,7 @@ if typing.TYPE_CHECKING:
     from pletyvo.protocol.dapp import abc as _dapp_abc
 
 
-class Service:
+class HTTPService:
     __slots__: typing.Sequence[str] = ("dapp", "delivery")
 
     def __init__(self, engine: abc.HTTPClient, signer: _dapp_abc.Signer) -> None:

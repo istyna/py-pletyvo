@@ -9,13 +9,13 @@ __all__: typing.Sequence[str] = (
     "HTTPDefault",
     "dapp",
     "delivery",
-    "Service",
+    "HTTPService",
 )
 
 import typing
 
 from . import abc
-from .service import Service
+from .service import HTTPService
 from .engine import (
     Config,
     HTTPDefault,
