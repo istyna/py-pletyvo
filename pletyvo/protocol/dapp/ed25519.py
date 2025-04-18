@@ -27,13 +27,9 @@ class Schema:
 
 
 class ED25519(abc.Signer):
-    def __init__(self, seed: typing.Optional[bytes] = None) -> None:
-        self._privatek = (
-            Ed25519PrivateKey.from_private_bytes(seed)
-            if seed
-            else Ed25519PrivateKey.generate()
-        )
-        self._publik = self._privatek.public_key()
+    def __init__(self, seed: bytes) -> None:
+        self._private_key = Ed25519PrivateKey.from_private_bytes(seed)
+        self._public_key = self._private_key.public_key()
 
     @classmethod
     def from_file(cls, path: str | PathLike[str]) -> ED25519:
@@ -41,14 +37,18 @@ class ED25519(abc.Signer):
             return cls(f.read())
 
     @classmethod
+    def gen(cls) -> ED25519:
+        return cls(Ed25519PrivateKey.generate().private_bytes_raw())
+
+    @classmethod
     def sch(cls) -> int:
         return Schema.ED25519
 
     def sign(self, msg: bytes) -> bytes:
-        return self._privatek.sign(msg)
+        return self._private_key.sign(msg)
 
     def pub(self) -> bytes:
-        return self._publik.public_bytes_raw()
+        return self._public_key.public_bytes_raw()
 
     def hash(self) -> Hash:
         return Hash.gen(
