@@ -40,25 +40,27 @@ class ED25519(abc.Signer):
     def gen(cls) -> ED25519:
         return cls(Ed25519PrivateKey.generate().private_bytes_raw())
 
-    @classmethod
+    @property
     def sch(cls) -> int:
         return Schema.ED25519
 
     def sign(self, msg: bytes) -> bytes:
         return self._private_key.sign(msg)
 
+    @property
     def pub(self) -> bytes:
         return self._public_key.public_bytes_raw()
 
+    @property
     def hash(self) -> Hash:
         return Hash.gen(
-            sch=self.sch(),
-            data=self.pub(),
+            sch=self.sch,
+            data=self.pub,
         )
 
     def auth(self, msg: bytes) -> AuthHeader:
         return AuthHeader(
-            sch=self.sch(),
-            pub=self.pub(),
+            sch=self.sch,
+            pub=self.pub,
             sig=self.sign(msg),
         )

@@ -29,16 +29,18 @@ if typing.TYPE_CHECKING:
 
 
 class Signer(ABC):
-    @classmethod
+    @property
     @abstractmethod
     def sch(cls) -> int: ...
 
     @abstractmethod
     def sign(self, msg: bytes) -> bytes: ...
 
+    @property
     @abstractmethod
     def pub(self) -> bytes: ...
 
+    @property
     @abstractmethod
     def hash(self) -> Hash: ...
 
