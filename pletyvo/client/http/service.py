@@ -7,6 +7,8 @@ __all__: typing.Sequence[str] = ("HTTPService",)
 
 import typing
 
+import attrs
+
 from .dapp import DappService
 from .delivery import DeliveryService
 
@@ -15,9 +17,14 @@ if typing.TYPE_CHECKING:
     from pletyvo.protocol.dapp import abc as _dapp_abc
 
 
+@attrs.define
 class HTTPService:
-    __slots__: typing.Sequence[str] = ("dapp", "delivery")
+    dapp: DappService = attrs.field()
 
-    def __init__(self, engine: abc.HTTPClient, signer: _dapp_abc.Signer) -> None:
-        self.dapp = DappService(engine)
-        self.delivery = DeliveryService(engine, signer, self.dapp.event)
+    delivery: DeliveryService = attrs.field()
+
+    @classmethod
+    def _(cls, engine: abc.HTTPClient, signer: _dapp_abc.Signer) -> HTTPService:
+        dapp = DappService._(engine)
+        delivery = DeliveryService._(engine, signer, dapp.event)
+        return cls(dapp, delivery)

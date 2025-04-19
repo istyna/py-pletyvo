@@ -11,6 +11,8 @@ __all__: typing.Sequence[str] = (
 
 import typing
 
+import attrs
+
 from pletyvo.protocol import dapp
 from pletyvo.codec.converter import uuidlike_converter
 from pletyvo.codec.serializer import as_dict
@@ -57,9 +59,14 @@ class EventService(dapp.abc.EventService):
         return dapp.EventResponse.from_dict(response)
 
 
+@attrs.define
 class DappService:
-    __slots__: typing.Sequence[str] = ("hash", "event")
+    hash: HashService = attrs.field()
 
-    def __init__(self, engine: abc.HTTPClient):
-        self.hash = HashService(engine)
-        self.event = EventService(engine)
+    event: EventService = attrs.field()
+
+    @classmethod
+    def _(cls, engine: abc.HTTPClient) -> DappService:
+        hash = HashService(engine)
+        event = EventService(engine)
+        return cls(hash, event)

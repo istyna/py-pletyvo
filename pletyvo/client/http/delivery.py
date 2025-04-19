@@ -12,6 +12,7 @@ __all__: typing.Sequence[str] = (
 
 import typing
 
+import attrs
 from aiohttp.client_exceptions import ContentTypeError as AiohttpContentTypeError
 
 from pletyvo.types import QueryOption
@@ -36,11 +37,11 @@ class ChannelService(delivery.abc.ChannelService):
         self,
         engine: abc.HTTPClient,
         signer: dapp.abc.Signer,
-        event_service: dapp.abc.EventService,
+        event: dapp.abc.EventService,
     ) -> None:
         self._engine = engine
         self._signer = signer
-        self._event_service = event_service
+        self._event = event
 
     async def get_by_id(self, id: UUIDLike) -> delivery.Channel:
         id = uuidlike_converter(id)
@@ -54,7 +55,7 @@ class ChannelService(delivery.abc.ChannelService):
             event_type=delivery.CHANNEL_CREATE_EVENT_TYPE,
             value=as_dict(input),
         )
-        return await self._event_service.create(
+        return await self._event.create(
             input=dapp.EventInput(
                 body=body,
                 auth=self._signer.auth(bytes(body)),
@@ -68,7 +69,7 @@ class ChannelService(delivery.abc.ChannelService):
             event_type=delivery.CHANNEL_UPDATE_EVENT_TYPE,
             value=as_dict(input),
         )
-        return await self._event_service.create(
+        return await self._event.create(
             input=dapp.EventInput(
                 body=body,
                 auth=self._signer.auth(bytes(body)),
@@ -81,11 +82,11 @@ class PostService(delivery.abc.PostService):
         self,
         engine: abc.HTTPClient,
         signer: dapp.abc.Signer,
-        event_service: dapp.abc.EventService,
+        event: dapp.abc.EventService,
     ) -> None:
         self._engine = engine
         self._signer = signer
-        self._event_service = event_service
+        self._event = event
 
     async def get(
         self, channel: UUIDLike, option: typing.Optional[QueryOption] = None
@@ -111,7 +112,7 @@ class PostService(delivery.abc.PostService):
             event_type=delivery.POST_CREATE_EVENT_TYPE,
             value=as_dict(input),
         )
-        return await self._event_service.create(
+        return await self._event.create(
             input=dapp.EventInput(
                 body=body,
                 auth=self._signer.auth(bytes(body)),
@@ -125,7 +126,7 @@ class PostService(delivery.abc.PostService):
             event_type=delivery.POST_UPDATE_EVENT_TYPE,
             value=as_dict(input),
         )
-        return await self._event_service.create(
+        return await self._event.create(
             input=dapp.EventInput(
                 body=body,
                 auth=self._signer.auth(bytes(body)),
@@ -167,15 +168,22 @@ class MessageService(delivery.abc.MessageService):
             )
 
 
+@attrs.define
 class DeliveryService:
-    __slots__: typing.Sequence[str] = ("channel", "post", "message")
+    channel: ChannelService = attrs.field()
 
-    def __init__(
-        self,
+    post: PostService = attrs.field()
+
+    message: MessageService = attrs.field()
+
+    @classmethod
+    def _(
+        cls,
         engine: abc.HTTPClient,
         signer: dapp.abc.Signer,
-        event_service: dapp.abc.EventService,
+        event: dapp.abc.EventService,
     ):
-        self.channel = ChannelService(engine, signer, event_service)
-        self.post = PostService(engine, signer, event_service)
-        self.message = MessageService(engine, signer)
+        channel = ChannelService(engine, signer, event)
+        post = PostService(engine, signer, event)
+        message = MessageService(engine, signer)
+        return cls(channel, post, message)
