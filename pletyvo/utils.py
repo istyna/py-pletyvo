@@ -9,7 +9,6 @@ __all__: typing.Sequence[str] = (
 )
 
 import typing
-import time
 
 import uuid
 import uuid_utils
@@ -23,6 +22,4 @@ def uuid7(
     timestamp: typing.Optional[int] = None,
     nanos: typing.Optional[int] = None,
 ) -> uuid.UUID:
-    if timestamp is None:
-        timestamp = round(time.time())
     return uuid.UUID(int=uuid_utils.uuid7(timestamp, nanos).int)
