@@ -10,6 +10,13 @@ __all__: typing.Sequence[str] = (
     "dapp",
     "delivery",
     "HTTPService",
+    "HashService",
+    "EventService",
+    "DAppService",
+    "ChannelService",
+    "PostService",
+    "MessageService",
+    "DeliveryService",
 )
 
 import typing
@@ -23,4 +30,15 @@ from .engine import (
 from . import (
     dapp,
     delivery,
+)
+from .dapp import (
+    HashService,
+    EventService,
+    DAppService,
+)
+from .delivery import (
+    ChannelService,
+    PostService,
+    MessageService,
+    DeliveryService,
 )

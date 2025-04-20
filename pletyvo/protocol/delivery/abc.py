@@ -6,6 +6,7 @@ from __future__ import annotations
 __all__: typing.Sequence[str] = (
     "ChannelService",
     "MessageService",
+    "PostService",
 )
 
 import typing
