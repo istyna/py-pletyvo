@@ -9,7 +9,7 @@ import typing
 
 import attrs
 
-from .dapp import DappService
+from .dapp import DAppService
 from .delivery import DeliveryService
 
 if typing.TYPE_CHECKING:
@@ -19,12 +19,12 @@ if typing.TYPE_CHECKING:
 
 @attrs.define
 class HTTPService:
-    dapp: DappService = attrs.field()
+    dapp: DAppService = attrs.field()
 
     delivery: DeliveryService = attrs.field()
 
     @classmethod
     def _(cls, engine: abc.HTTPClient, signer: _dapp_abc.Signer) -> HTTPService:
-        dapp = DappService._(engine)
+        dapp = DAppService._(engine)
         delivery = DeliveryService._(engine, signer, dapp.event)
         return cls(dapp, delivery)

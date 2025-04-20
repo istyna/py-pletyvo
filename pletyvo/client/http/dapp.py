@@ -6,7 +6,7 @@ from __future__ import annotations
 __all__: typing.Sequence[str] = (
     "HashService",
     "EventService",
-    "DappService",
+    "DAppService",
 )
 
 import typing
@@ -60,13 +60,13 @@ class EventService(dapp.abc.EventService):
 
 
 @attrs.define
-class DappService:
+class DAppService:
     hash: HashService = attrs.field()
 
     event: EventService = attrs.field()
 
     @classmethod
-    def _(cls, engine: abc.HTTPClient) -> DappService:
+    def _(cls, engine: abc.HTTPClient) -> DAppService:
         hash = HashService(engine)
         event = EventService(engine)
         return cls(hash, event)
