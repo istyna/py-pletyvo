@@ -31,6 +31,7 @@ from pletyvo.codec.converter import (
 )
 
 if typing.TYPE_CHECKING:
+    from . import abc
     from pletyvo.types import UUIDLike
 
 
@@ -221,6 +222,13 @@ class EventInput:
     body: EventBody = attrs.field(converter=dapp_event_body_converter)
 
     auth: AuthHeader = attrs.field(converter=dapp_auth_header_converter)
+
+    @classmethod
+    def signed(cls, signer: abc.Signer, body: EventBody) -> EventInput:
+        return cls(
+            body=body,
+            auth=signer.auth(bytes(body)),
+        )
 
 
 @attrs.define
