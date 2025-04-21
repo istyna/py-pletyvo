@@ -12,6 +12,7 @@ import typing
 
 from cryptography.hazmat.primitives.asymmetric.ed25519 import (
     Ed25519PrivateKey,
+    Ed25519PublicKey,
 )
 
 from . import abc
@@ -63,4 +64,10 @@ class ED25519(abc.Signer):
             sch=self.sch,
             pub=self.pub,
             sig=self.sign(msg),
+        )
+
+    def verify(self, pub: bytes, sig: bytes, msg: bytes) -> None:
+        Ed25519PublicKey.from_public_bytes(pub).verify(
+            signature=sig,
+            data=msg,
         )
