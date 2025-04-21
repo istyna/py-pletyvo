@@ -173,7 +173,7 @@ class DeliveryService:
     message: MessageService = attrs.field()
 
     @classmethod
-    def _(
+    def di(
         cls,
         engine: abc.HTTPClient,
         signer: dapp.abc.Signer,

@@ -24,7 +24,7 @@ class HTTPService:
     delivery: DeliveryService = attrs.field()
 
     @classmethod
-    def _(cls, engine: abc.HTTPClient, signer: _dapp_abc.Signer) -> HTTPService:
-        dapp = DAppService._(engine)
-        delivery = DeliveryService._(engine, signer, dapp.event)
+    def di(cls, engine: abc.HTTPClient, signer: _dapp_abc.Signer) -> HTTPService:
+        dapp = DAppService.di(engine)
+        delivery = DeliveryService.di(engine, signer, dapp.event)
         return cls(dapp, delivery)

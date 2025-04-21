@@ -66,7 +66,7 @@ class DAppService:
     event: EventService = attrs.field()
 
     @classmethod
-    def _(cls, engine: abc.HTTPClient) -> DAppService:
+    def di(cls, engine: abc.HTTPClient) -> DAppService:
         hash = HashService(engine)
         event = EventService(engine)
         return cls(hash, event)
