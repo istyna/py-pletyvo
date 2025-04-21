@@ -49,30 +49,28 @@ class ChannelService(delivery.abc.ChannelService):
         return delivery.Channel.from_dict(response)
 
     async def create(self, input: delivery.ChannelCreateInput) -> dapp.EventResponse:
-        body = dapp.EventBody.create(
-            version=dapp.EventBodyType.BASIC,
-            data_type=dapp.DataType.JSON,
-            event_type=delivery.CHANNEL_CREATE_EVENT_TYPE,
-            value=as_dict(input),
-        )
         return await self._event.create(
-            input=dapp.EventInput(
-                body=body,
-                auth=self._signer.auth(bytes(body)),
+            input=dapp.EventInput.signed(
+                signer=self._signer,
+                body=dapp.EventBody.create(
+                    version=dapp.EventBodyType.BASIC,
+                    data_type=dapp.DataType.JSON,
+                    event_type=delivery.CHANNEL_CREATE_EVENT_TYPE,
+                    value=as_dict(input),
+                ),
             )
         )
 
     async def update(self, input: delivery.ChannelUpdateInput) -> dapp.EventResponse:
-        body = dapp.EventBody.create(
-            version=dapp.EventBodyType.BASIC,
-            data_type=dapp.DataType.JSON,
-            event_type=delivery.CHANNEL_UPDATE_EVENT_TYPE,
-            value=as_dict(input),
-        )
         return await self._event.create(
-            input=dapp.EventInput(
-                body=body,
-                auth=self._signer.auth(bytes(body)),
+            input=dapp.EventInput.signed(
+                signer=self._signer,
+                body=dapp.EventBody.create(
+                    version=dapp.EventBodyType.BASIC,
+                    data_type=dapp.DataType.JSON,
+                    event_type=delivery.CHANNEL_UPDATE_EVENT_TYPE,
+                    value=as_dict(input),
+                ),
             )
         )
 
@@ -106,30 +104,28 @@ class PostService(delivery.abc.PostService):
         return delivery.Post.from_dict(response)
 
     async def create(self, input: delivery.PostCreateInput) -> dapp.EventResponse:
-        body = dapp.EventBody.create(
-            version=dapp.EventBodyType.BASIC,
-            data_type=dapp.DataType.JSON,
-            event_type=delivery.POST_CREATE_EVENT_TYPE,
-            value=as_dict(input),
-        )
         return await self._event.create(
-            input=dapp.EventInput(
-                body=body,
-                auth=self._signer.auth(bytes(body)),
+            input=dapp.EventInput.signed(
+                signer=self._signer,
+                body=dapp.EventBody.create(
+                    version=dapp.EventBodyType.BASIC,
+                    data_type=dapp.DataType.JSON,
+                    event_type=delivery.POST_CREATE_EVENT_TYPE,
+                    value=as_dict(input),
+                ),
             )
         )
 
     async def update(self, input: delivery.PostUpdateInput) -> dapp.EventResponse:
-        body = dapp.EventBody.create(
-            version=dapp.EventBodyType.BASIC,
-            data_type=dapp.DataType.JSON,
-            event_type=delivery.POST_UPDATE_EVENT_TYPE,
-            value=as_dict(input),
-        )
         return await self._event.create(
-            input=dapp.EventInput(
-                body=body,
-                auth=self._signer.auth(bytes(body)),
+            input=dapp.EventInput.signed(
+                signer=self._signer,
+                body=dapp.EventBody.create(
+                    version=dapp.EventBodyType.BASIC,
+                    data_type=dapp.DataType.JSON,
+                    event_type=delivery.POST_UPDATE_EVENT_TYPE,
+                    value=as_dict(input),
+                ),
             )
         )
 
