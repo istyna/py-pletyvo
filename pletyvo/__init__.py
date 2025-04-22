@@ -8,7 +8,7 @@ __all__: typing.Sequence[str] = (
     "protocol",
     "types",
 )
-__version__: typing.Final[str] = "0.0.0a5"
+__version__: typing.Final[str] = "0.0.0a6"
 
 import typing
 
