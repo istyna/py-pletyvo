@@ -8,7 +8,7 @@ include = ["*pletyvo*"]
 
 [project]
 name = "pletyvo"
-description = "Implementation of the client and protocols of the Pletyvo decentralized platform in Python"
+description = "Typed, async‑first Python client for the Pletyvo decentralized platform and it's protocols (Python ≥ 3.9)"
 dynamic = ["version"]
 dependencies = [
   "setuptools~=71.0.4",
