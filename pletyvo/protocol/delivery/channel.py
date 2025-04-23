@@ -14,10 +14,10 @@ import typing
 import attrs
 
 from pletyvo.protocol import dapp
-from pletyvo.codec.converter import dapp_hash_converter
-
-
-channel_name_validator = attrs.validators.max_len(40)  # type: ignore[var-annotated]
+from pletyvo.codec.converter import (
+    channel_name_validator,
+    dapp_hash_converter,
+)
 
 
 @attrs.define

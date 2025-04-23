@@ -16,15 +16,10 @@ import attrs
 
 from pletyvo.protocol import dapp
 from pletyvo.codec.converter import (
+    post_content_validator,
     uuidlike_converter,
     dapp_hash_converter,
 )
-
-
-post_content_validator = (
-    attrs.validators.min_len(1),
-    attrs.validators.max_len(2048),
-)  # type: ignore[var-annotated]
 
 
 @attrs.define

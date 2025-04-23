@@ -4,6 +4,11 @@
 from __future__ import annotations
 
 __all__: typing.Sequence[str] = (
+    "post_content_validator",
+    "channel_name_validator",
+    "message_content_validator",
+    "event_type_octet_validator",
+    "len_eq",
     "dapp_hash_converter",
     "dapp_auth_header_converter",
     "dapp_event_body_converter",
@@ -13,10 +18,29 @@ __all__: typing.Sequence[str] = (
 import typing
 from uuid import UUID
 
+from attrs.validators import (
+    in_,
+    min_len,
+    max_len,
+)
+
 from pletyvo.protocol import dapp
 
 if typing.TYPE_CHECKING:
     from pletyvo.types import UUIDLike
+
+
+post_content_validator = min_len(1), max_len(2048)
+
+channel_name_validator = min_len(1), max_len(40)
+
+message_content_validator = min_len(1), max_len(2048)
+
+event_type_octet_validator = in_(range(0, 256))
+
+
+def len_eq(s: int):
+    return min_len(s), max_len(s)
 
 
 def dapp_hash_converter(h: dapp.Hash | str) -> dapp.Hash:

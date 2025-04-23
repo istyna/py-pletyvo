@@ -22,11 +22,12 @@ from uuid import UUID
 from enum import IntEnum
 
 import attrs
-from attrs.validators import in_, instance_of
 
 from .hash import Hash
 from pletyvo.utils import padd
 from pletyvo.codec.converter import (
+    event_type_octet_validator,
+    uuidlike_converter,
     dapp_hash_converter,
     dapp_event_body_converter,
     dapp_auth_header_converter,
@@ -34,11 +35,6 @@ from pletyvo.codec.converter import (
 
 if typing.TYPE_CHECKING:
     from . import abc
-    from pletyvo.types import UUIDLike
-
-
-def uuid_converter(u: UUIDLike) -> UUID:
-    return u if isinstance(u, UUID) else UUID(u)
 
 
 class DataType(IntEnum):
@@ -60,7 +56,7 @@ class EventBodyType(IntEnum):
 
 @attrs.define
 class EventHeader:
-    id: UUID = attrs.field(converter=uuid_converter)
+    id: UUID = attrs.field(converter=uuidlike_converter)
 
     hash: Hash = attrs.field(converter=dapp_hash_converter)
 
@@ -70,9 +66,6 @@ class EventHeader:
             id=d["id"],
             hash=d["hash"],
         )
-
-
-event_type_octet_validator = (instance_of(int), in_(range(0, 0x100)))
 
 
 @attrs.define
@@ -256,7 +249,7 @@ class EventInput:
 
 @attrs.define
 class Event:
-    id: UUID = attrs.field(converter=uuid_converter)
+    id: UUID = attrs.field(converter=uuidlike_converter)
 
     body: EventBody = attrs.field(converter=dapp_event_body_converter)
 
@@ -273,7 +266,7 @@ class Event:
 
 @attrs.define
 class EventResponse:
-    id: UUID = attrs.field(converter=uuid_converter)
+    id: UUID = attrs.field(converter=uuidlike_converter)
 
     @classmethod
     def from_dict(cls, d: dict[str, typing.Any]) -> EventResponse:
