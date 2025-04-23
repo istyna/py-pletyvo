@@ -23,7 +23,7 @@ __all__: typing.Sequence[str] = (
 import typing
 
 from . import abc
-from .types import (
+from .event_type import (
     CHANNEL_CREATE_EVENT_TYPE,
     CHANNEL_UPDATE_EVENT_TYPE,
     POST_CREATE_EVENT_TYPE,
