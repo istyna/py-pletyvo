@@ -19,7 +19,10 @@ def padd(s: str) -> str:
 
 
 def uuid7(
-    timestamp: typing.Optional[int] = None,
-    nanos: typing.Optional[int] = None,
+    timestamp: typing.Optional[float] = None,
 ) -> uuid.UUID:
-    return uuid.UUID(int=uuid_utils.uuid7(timestamp, nanos).int)
+    if timestamp:
+        t, n = divmod(timestamp, 1)
+        t, n = round(t), round((n % 1) * 1_000_000_000)
+        return uuid.UUID(int=uuid_utils.uuid7(t, n).int)
+    return uuid.UUID(int=uuid_utils.uuid7().int)
