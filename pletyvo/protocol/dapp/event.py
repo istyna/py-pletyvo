@@ -27,7 +27,7 @@ from .hash import Hash
 from pletyvo.utils import padd
 from pletyvo.codec.sanitizer import (
     event_type_octet_validator,
-    uuidlike_converter,
+    uuid_converter,
     dapp_hash_converter,
     dapp_event_body_converter,
     dapp_auth_header_converter,
@@ -56,7 +56,7 @@ class EventBodyType(IntEnum):
 
 @attrs.define
 class EventHeader:
-    id: UUID = attrs.field(converter=uuidlike_converter)
+    id: UUID = attrs.field(converter=uuid_converter)
 
     hash: Hash = attrs.field(converter=dapp_hash_converter)
 
@@ -249,7 +249,7 @@ class EventInput:
 
 @attrs.define
 class Event:
-    id: UUID = attrs.field(converter=uuidlike_converter)
+    id: UUID = attrs.field(converter=uuid_converter)
 
     body: EventBody = attrs.field(converter=dapp_event_body_converter)
 
@@ -266,7 +266,7 @@ class Event:
 
 @attrs.define
 class EventResponse:
-    id: UUID = attrs.field(converter=uuidlike_converter)
+    id: UUID = attrs.field(converter=uuid_converter)
 
     @classmethod
     def from_dict(cls, d: dict[str, typing.Any]) -> EventResponse:

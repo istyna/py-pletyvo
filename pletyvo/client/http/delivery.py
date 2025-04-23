@@ -16,7 +16,7 @@ import attrs
 from aiohttp.client_exceptions import ContentTypeError as AiohttpContentTypeError
 
 from pletyvo.codec.serializer import as_dict
-from pletyvo.codec.sanitizer import uuidlike_converter
+from pletyvo.codec.sanitizer import uuid_converter
 from pletyvo.protocol import (
     dapp,
     delivery,
@@ -43,7 +43,7 @@ class ChannelService(delivery.abc.ChannelService):
         self._event = event
 
     async def get_by_id(self, id: UUIDLike) -> delivery.Channel:
-        id = uuidlike_converter(id)
+        id = uuid_converter(id)
         response: JSONType = await self._engine.get(f"/api/delivery/v1/channel/{id}")
         return delivery.Channel.from_dict(response)
 
@@ -88,15 +88,15 @@ class PostService(delivery.abc.PostService):
     async def get(
         self, channel: UUIDLike, option: typing.Optional[QueryOption] = None
     ) -> list[delivery.Post]:
-        channel = uuidlike_converter(channel)
-        channel = uuidlike_converter(channel)
+        channel = uuid_converter(channel)
+        channel = uuid_converter(channel)
         response: JSONType = await self._engine.get(
             f"/api/delivery/v1/channel/{channel}/posts{str(option or '')}"  # noqa: E501
         )
         return [delivery.Post.from_dict(post) for post in response]
 
     async def get_by_id(self, channel: UUIDLike, id: UUIDLike) -> delivery.Post:
-        channel, id = uuidlike_converter(channel), uuidlike_converter(id)
+        channel, id = uuid_converter(channel), uuid_converter(id)
         response: JSONType = await self._engine.get(
             f"/api/delivery/v1/channel/{channel}/posts/{id}"
         )
@@ -141,7 +141,7 @@ class MessageService(delivery.abc.MessageService):
     async def get(
         self, channel: UUIDLike, option: typing.Optional[QueryOption] = None
     ) -> list[delivery.Message]:
-        channel = uuidlike_converter(channel)
+        channel = uuid_converter(channel)
         response: JSONType = await self._engine.get(
             f"/api/delivery/v1/channel/{channel}/messages" + str(option or "")
         )
@@ -150,9 +150,9 @@ class MessageService(delivery.abc.MessageService):
     async def get_by_id(
         self, channel: UUIDLike, id: UUIDLike
     ) -> delivery.Message | None:
-        channel = uuidlike_converter(channel)
+        channel = uuid_converter(channel)
         response: JSONType = await self._engine.get(
-            f"/api/delivery/v1/channels/{channel}/messages/{uuidlike_converter(id)}"
+            f"/api/delivery/v1/channels/{channel}/messages/{uuid_converter(id)}"
         )
         return delivery.Message.from_dict(response)
 

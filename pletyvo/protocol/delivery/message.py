@@ -19,7 +19,7 @@ from pletyvo.codec.sanitizer import (
     dapp_hash_converter,
     dapp_auth_header_converter,
     dapp_event_body_converter,
-    uuidlike_converter,
+    uuid_converter,
 )
 
 
@@ -39,7 +39,7 @@ class Message:
 
 @attrs.define
 class MessageInput:
-    id: UUID = attrs.field(converter=uuidlike_converter)
+    id: UUID = attrs.field(converter=uuid_converter)
 
     channel: dapp.Hash = attrs.field(converter=dapp_hash_converter)
 

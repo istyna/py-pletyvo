@@ -14,7 +14,7 @@ import typing
 import attrs
 
 from pletyvo.protocol import dapp
-from pletyvo.codec.sanitizer import uuidlike_converter
+from pletyvo.codec.sanitizer import uuid_converter
 from pletyvo.codec.serializer import as_dict
 
 if typing.TYPE_CHECKING:
@@ -48,7 +48,7 @@ class EventService(dapp.abc.EventService):
         return [dapp.Event.from_dict(d=event) for event in response]  # type: ignore
 
     async def get_by_id(self, id: UUIDLike) -> dapp.Event:
-        id = uuidlike_converter(id)
+        id = uuid_converter(id)
         response: JSONType = await self._engine.get(f"/api/dapp/v1/events/{id}")
         return dapp.Event.from_dict(response)
 

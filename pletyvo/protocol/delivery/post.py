@@ -17,20 +17,20 @@ import attrs
 from pletyvo.protocol import dapp
 from pletyvo.codec.sanitizer import (
     post_content_validator,
-    uuidlike_converter,
+    uuid_converter,
     dapp_hash_converter,
 )
 
 
 @attrs.define
 class Post:
-    id: UUID = attrs.field(converter=uuidlike_converter)
+    id: UUID = attrs.field(converter=uuid_converter)
 
     hash: dapp.Hash = attrs.field(converter=dapp_hash_converter)
 
     author: dapp.Hash = attrs.field(converter=dapp_hash_converter)
 
-    channel: UUID = attrs.field(converter=uuidlike_converter)
+    channel: UUID = attrs.field(converter=uuid_converter)
 
     content: str = attrs.field(validator=post_content_validator)
 
@@ -47,14 +47,14 @@ class Post:
 
 @attrs.define
 class PostCreateInput:
-    channel: UUID = attrs.field(converter=uuidlike_converter)
+    channel: UUID = attrs.field(converter=uuid_converter)
 
     content: str = attrs.field(validator=post_content_validator)
 
 
 @attrs.define
 class PostUpdateInput:
-    channel: UUID = attrs.field(converter=uuidlike_converter)
+    channel: UUID = attrs.field(converter=uuid_converter)
 
     post: dapp.Hash = attrs.field(converter=dapp_hash_converter)
 

@@ -12,7 +12,7 @@ __all__: typing.Sequence[str] = (
     "dapp_hash_converter",
     "dapp_auth_header_converter",
     "dapp_event_body_converter",
-    "uuidlike_converter",
+    "uuid_converter",
 )
 
 import typing
@@ -73,7 +73,7 @@ def dapp_event_body_converter(
     return b
 
 
-def uuidlike_converter(u: UUIDLike | dt.datetime) -> UUID:
+def uuid_converter(u: UUIDLike | dt.datetime) -> UUID:
     if isinstance(u, UUID):
         return u
     elif isinstance(u, str):

@@ -10,7 +10,7 @@ from uuid import UUID
 
 import attrs
 
-from pletyvo.codec.sanitizer import uuidlike_converter
+from pletyvo.codec.sanitizer import uuid_converter
 
 
 NIL_UUID = UUID("00000000-0000-0000-0000-000000000000")
@@ -22,9 +22,9 @@ class QueryOption:
 
     order: bool = attrs.field(default=False)
 
-    after: UUID = attrs.field(default=NIL_UUID, converter=uuidlike_converter)
+    after: UUID = attrs.field(default=NIL_UUID, converter=uuid_converter)
 
-    before: UUID = attrs.field(default=NIL_UUID, converter=uuidlike_converter)
+    before: UUID = attrs.field(default=NIL_UUID, converter=uuid_converter)
 
     def __str__(self) -> str:
         buf: list[str] = []
