@@ -16,6 +16,7 @@ __all__: typing.Sequence[str] = (
 )
 
 import typing
+import datetime as dt
 from uuid import UUID
 
 from attrs.validators import (
@@ -25,6 +26,7 @@ from attrs.validators import (
 )
 
 from pletyvo.protocol import dapp
+from pletyvo.utils import uuid7
 
 if typing.TYPE_CHECKING:
     from pletyvo.types import UUIDLike
@@ -71,5 +73,10 @@ def dapp_event_body_converter(
     return b
 
 
-def uuidlike_converter(u: UUIDLike) -> UUID:
-    return u if isinstance(u, UUID) else UUID(u)
+def uuidlike_converter(u: UUIDLike | dt.datetime) -> UUID:
+    if isinstance(u, UUID):
+        return u
+    elif isinstance(u, str):
+        return UUID(u)
+    elif isinstance(u, dt.datetime):
+        return uuid7(timestamp=u.timestamp())
