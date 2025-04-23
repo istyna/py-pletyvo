@@ -10,7 +10,7 @@ from uuid import UUID
 
 import attrs
 
-from pletyvo.codec.converter import uuidlike_converter
+from pletyvo.codec.sanitizer import uuidlike_converter
 
 
 NIL_UUID = UUID("00000000-0000-0000-0000-000000000000")

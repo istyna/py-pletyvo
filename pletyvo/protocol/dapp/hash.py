@@ -16,7 +16,7 @@ import attrs
 from blake3 import blake3
 
 from pletyvo.utils import padd
-from pletyvo.codec.converter import len_eq
+from pletyvo.codec.sanitizer import len_eq
 
 
 HASH_SIZE: typing.Final[int] = 32

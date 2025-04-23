@@ -25,7 +25,7 @@ import attrs
 
 from .hash import Hash
 from pletyvo.utils import padd
-from pletyvo.codec.converter import (
+from pletyvo.codec.sanitizer import (
     event_type_octet_validator,
     uuidlike_converter,
     dapp_hash_converter,

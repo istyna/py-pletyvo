@@ -14,7 +14,7 @@ import typing
 import attrs
 
 from pletyvo.protocol import dapp
-from pletyvo.codec.converter import uuidlike_converter
+from pletyvo.codec.sanitizer import uuidlike_converter
 from pletyvo.codec.serializer import as_dict
 
 if typing.TYPE_CHECKING:
