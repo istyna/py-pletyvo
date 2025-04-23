@@ -10,14 +10,14 @@ __all__: typing.Sequence[str] = (
     "HASH_SIZE",
     "HASH_LENGTH",
     "Hash",
-    "AuthHeader",
-    "EventHeader",
-    "EventInput",
-    "Event",
-    "EventType",
     "DataType",
     "EventBodyType",
+    "EventHeader",
+    "EventType",
     "EventBody",
+    "AuthHeader",
+    "EventInput",
+    "Event",
     "EventResponse",
 )
 
@@ -30,14 +30,14 @@ from .hash import (
     HASH_LENGTH,
     Hash,
 )
-from .auth_header import AuthHeader
 from .event import (
-    EventHeader,
-    EventInput,
-    Event,
-    EventType,
     DataType,
     EventBodyType,
+    EventHeader,
+    EventType,
     EventBody,
+    AuthHeader,
+    EventInput,
+    Event,
     EventResponse,
 )

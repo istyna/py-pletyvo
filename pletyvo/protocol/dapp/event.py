@@ -4,11 +4,14 @@
 from __future__ import annotations
 
 __all__: typing.Sequence[str] = (
+    "DataType",
+    "EventBodyType",
     "EventHeader",
-    "EventInput",
-    "Event",
     "EventType",
     "EventBody",
+    "AuthHeader",
+    "EventInput",
+    "Event",
     "EventResponse",
 )
 
@@ -22,7 +25,6 @@ import attrs
 from attrs.validators import in_, instance_of
 
 from .hash import Hash
-from .auth_header import AuthHeader
 from pletyvo.utils import padd
 from pletyvo.codec.converter import (
     dapp_hash_converter,
@@ -215,6 +217,27 @@ class EventBody:
             error_message = "EventBody doesn't support linked version"
             raise ValueError(error_message)
         self.payload[4:36] = bytes(hash)
+
+
+@attrs.define(hash=True)
+class AuthHeader:
+    sch: int = attrs.field()
+
+    pub: bytes = attrs.field()
+
+    sig: bytes = attrs.field()
+
+    @property
+    def author(self) -> Hash:
+        return Hash.gen(self.sch, self.pub)
+
+    @classmethod
+    def from_dict(cls, d: dict[str, typing.Any]) -> AuthHeader:
+        return cls(
+            sch=d["sch"],
+            pub=base64.b64decode(d["pub"]),
+            sig=base64.b64decode(d["sig"]),
+        )
 
 
 @attrs.define()

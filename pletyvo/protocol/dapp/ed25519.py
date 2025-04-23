@@ -16,7 +16,7 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import (
 )
 
 from . import abc
-from .auth_header import AuthHeader
+from .event import AuthHeader
 from .hash import Hash
 
 if typing.TYPE_CHECKING:

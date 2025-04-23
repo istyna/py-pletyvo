@@ -16,10 +16,10 @@ from abc import (
 )
 
 if typing.TYPE_CHECKING:
-    from .auth_header import AuthHeader
     from .hash import Hash
     from .event import (
         Event,
+        AuthHeader,
         EventInput,
         EventResponse,
     )
