@@ -10,7 +10,7 @@ __all__: typing.Sequence[str] = (
     "HASH_SIZE",
     "HASH_LENGTH",
     "Hash",
-    "DataType",
+    "EventBodyDataType",
     "EventBodyType",
     "EventHeader",
     "EventType",
@@ -31,7 +31,7 @@ from .hash import (
     Hash,
 )
 from .event import (
-    DataType,
+    EventBodyDataType,
     EventBodyType,
     EventHeader,
     EventType,

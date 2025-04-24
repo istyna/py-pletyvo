@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 __all__: typing.Sequence[str] = (
-    "DataType",
+    "EventBodyDataType",
     "EventBodyType",
     "EventHeader",
     "EventType",
@@ -37,7 +37,7 @@ if typing.TYPE_CHECKING:
     from . import abc
 
 
-class DataType(IntEnum):
+class EventBodyDataType(IntEnum):
     JSON = 1
 
 
@@ -113,11 +113,11 @@ class EventBody:
     def create(
         cls,
         version: EventBodyType,
-        data_type: DataType,
+        data_type: EventBodyDataType,
         event_type: EventType,
         value: typing.Any,
     ) -> EventBody:
-        if isinstance(data_type, DataType) is False:
+        if isinstance(data_type, EventBodyDataType) is False:
             error_message = f"Unsupported data type: {data_type}"
             raise ValueError(error_message)
 
@@ -172,11 +172,11 @@ class EventBody:
         self.payload[0] = version
 
     @property
-    def data_type(self) -> DataType:
-        return DataType(self.payload[1])
+    def data_type(self) -> EventBodyDataType:
+        return EventBodyDataType(self.payload[1])
 
     @data_type.setter
-    def data_type(self, data_type: DataType) -> None:
+    def data_type(self, data_type: EventBodyDataType) -> None:
         self.payload[1] = data_type
 
     @property

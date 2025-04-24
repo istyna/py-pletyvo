@@ -53,7 +53,7 @@ class ChannelService(delivery.abc.ChannelService):
                 signer=self._signer,
                 body=dapp.EventBody.create(
                     version=dapp.EventBodyType.BASIC,
-                    data_type=dapp.DataType.JSON,
+                    data_type=dapp.EventBodyDataType.JSON,
                     event_type=delivery.CHANNEL_CREATE_EVENT_TYPE,
                     value=as_dict(input),
                 ),
@@ -66,7 +66,7 @@ class ChannelService(delivery.abc.ChannelService):
                 signer=self._signer,
                 body=dapp.EventBody.create(
                     version=dapp.EventBodyType.BASIC,
-                    data_type=dapp.DataType.JSON,
+                    data_type=dapp.EventBodyDataType.JSON,
                     event_type=delivery.CHANNEL_UPDATE_EVENT_TYPE,
                     value=as_dict(input),
                 ),
@@ -108,7 +108,7 @@ class PostService(delivery.abc.PostService):
                 signer=self._signer,
                 body=dapp.EventBody.create(
                     version=dapp.EventBodyType.BASIC,
-                    data_type=dapp.DataType.JSON,
+                    data_type=dapp.EventBodyDataType.JSON,
                     event_type=delivery.POST_CREATE_EVENT_TYPE,
                     value=as_dict(input),
                 ),
@@ -121,7 +121,7 @@ class PostService(delivery.abc.PostService):
                 signer=self._signer,
                 body=dapp.EventBody.create(
                     version=dapp.EventBodyType.BASIC,
-                    data_type=dapp.DataType.JSON,
+                    data_type=dapp.EventBodyDataType.JSON,
                     event_type=delivery.POST_UPDATE_EVENT_TYPE,
                     value=as_dict(input),
                 ),
