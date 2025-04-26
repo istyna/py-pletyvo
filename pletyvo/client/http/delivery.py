@@ -34,7 +34,7 @@ if typing.TYPE_CHECKING:
 class ChannelService(delivery.abc.ChannelService):
     def __init__(
         self,
-        engine: abc.HTTPClient,
+        engine: abc.Engine,
         signer: dapp.abc.Signer,
         event: dapp.abc.EventService,
     ) -> None:
@@ -77,7 +77,7 @@ class ChannelService(delivery.abc.ChannelService):
 class PostService(delivery.abc.PostService):
     def __init__(
         self,
-        engine: abc.HTTPClient,
+        engine: abc.Engine,
         signer: dapp.abc.Signer,
         event: dapp.abc.EventService,
     ) -> None:
@@ -132,7 +132,7 @@ class PostService(delivery.abc.PostService):
 class MessageService(delivery.abc.MessageService):
     def __init__(
         self,
-        engine: abc.HTTPClient,
+        engine: abc.Engine,
         signer: dapp.abc.Signer,
     ) -> None:
         self._engine = engine
@@ -174,7 +174,7 @@ class DeliveryService:
     @classmethod
     def di(
         cls,
-        engine: abc.HTTPClient,
+        engine: abc.Engine,
         signer: dapp.abc.Signer,
         event: dapp.abc.EventService,
     ):

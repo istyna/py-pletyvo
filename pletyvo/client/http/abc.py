@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-__all__: typing.Sequence[str] = ("HTTPClient",)
+__all__: typing.Sequence[str] = ("Engine",)
 
 import typing
 from abc import (
@@ -15,7 +15,7 @@ if typing.TYPE_CHECKING:
     from pletyvo.types import JSONType
 
 
-class HTTPClient(ABC):
+class Engine(ABC):
     @abstractmethod
     async def get(self, endpoint: str) -> JSONType: ...
 

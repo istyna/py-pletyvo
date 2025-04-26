@@ -5,7 +5,7 @@ from __future__ import annotations
 
 __all__: typing.Sequence[str] = (
     "Config",
-    "HTTPDefault",
+    "DefaultEngine",
 )
 
 import typing
@@ -33,7 +33,7 @@ class Config:
     network: typing.Optional[str] = attrs.field(default=None)
 
 
-class HTTPDefault(abc.HTTPClient):
+class DefaultEngine(abc.Engine):
     def __init__(self, config: Config):
         self._config = config
 

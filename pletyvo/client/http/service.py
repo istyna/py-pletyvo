@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-__all__: typing.Sequence[str] = ("HTTPService",)
+__all__: typing.Sequence[str] = ("Service",)
 
 import typing
 
@@ -18,13 +18,13 @@ if typing.TYPE_CHECKING:
 
 
 @attrs.define
-class HTTPService:
+class Service:
     dapp: DAppService = attrs.field()
 
     delivery: DeliveryService = attrs.field()
 
     @classmethod
-    def di(cls, engine: abc.HTTPClient, signer: _dapp_abc.Signer) -> HTTPService:
+    def di(cls, engine: abc.Engine, signer: _dapp_abc.Signer) -> Service:
         dapp = DAppService.di(engine)
         delivery = DeliveryService.di(engine, signer, dapp.event)
         return cls(dapp, delivery)

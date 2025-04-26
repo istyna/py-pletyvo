@@ -27,7 +27,7 @@ if typing.TYPE_CHECKING:
 
 
 class HashService(dapp.abc.HashService):
-    def __init__(self, engine: abc.HTTPClient) -> None:
+    def __init__(self, engine: abc.Engine) -> None:
         self._engine = engine
 
     async def get_by_id(self, id: dapp.Hash) -> dapp.EventResponse:
@@ -36,7 +36,7 @@ class HashService(dapp.abc.HashService):
 
 
 class EventService(dapp.abc.EventService):
-    def __init__(self, engine: abc.HTTPClient) -> None:
+    def __init__(self, engine: abc.Engine) -> None:
         self._engine = engine
 
     async def get(
@@ -66,7 +66,7 @@ class DAppService:
     event: EventService = attrs.field()
 
     @classmethod
-    def di(cls, engine: abc.HTTPClient) -> DAppService:
+    def di(cls, engine: abc.Engine) -> DAppService:
         hash = HashService(engine)
         event = EventService(engine)
         return cls(hash, event)

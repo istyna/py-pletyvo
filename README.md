@@ -19,12 +19,12 @@ pip install -U pletyvo
 
 ### Engine
 
-To begin using the client, you need to create an `engine` — the core component responsible for all communication with the Pletyvo gateway. You can create one using `http.HTTPDefault`:
+To begin using the client, you need to create an `engine` — the core component responsible for all communication with the Pletyvo gateway. You can create one using `http.DefaultEngine`:
 
 ```py
 from pletyvo.client import http
 
-engine: http.abc.HTTPClient = http.HTTPDefault(
+engine: http.abc.Engine = http.DefaultEngine(
     config=http.Config(
         url="http://testnet.pletyvo.osyah.com",
         network="AAEAAAAB",
@@ -44,7 +44,7 @@ A service is a high-level interface that aggregates protocol-specific HTTP servi
 ```py
 from pletyvo.client import http
 
-service = http.HTTPService.di(
+service = http.Service.di(
     engine=engine,
     signer=signer,
 )
@@ -58,7 +58,7 @@ You can instantiate each service manually by passing required dependencies.
 ```py
 from pletyvo.client import http
 
-service = http.HTTPService(
+service = http.Service(
     dapp=http.DAppService(
         hash=http.HashService(...),
         event=http.EventService(...),
@@ -83,7 +83,7 @@ flowchart LR
 
   subgraph Dependencies
     dapp.abc.Signer["dapp.abc.Signer"]
-    http.HTTPClient["http.HTTPClient"]
+    http.DefaultEngine["http.DefaultEngine"]
   end
 
   subgraph Services
@@ -94,11 +94,11 @@ flowchart LR
     http.MessageService["http.MessageService"]
     http.DAppService["http.DAppService"]
     http.DeliveryService["http.DeliveryService"]
-    http.HTTPService["http.HTTPService"]
+    http.Service["http.Service"]
   end
 
   dapp.abc.Signer --> http.ChannelService & http.PostService & http.MessageService
-  http.HTTPClient --> http.HashService & http.EventService & http.ChannelService & http.PostService & http.MessageService
+  http.DefaultEngine --> http.HashService & http.EventService & http.ChannelService & http.PostService & http.MessageService
 
   http.EventService --> http.ChannelService & http.PostService & http.DAppService
   http.HashService --> http.DAppService
@@ -107,8 +107,8 @@ flowchart LR
   http.PostService --> http.DeliveryService
   http.MessageService --> http.DeliveryService
 
-  http.DAppService --> http.HTTPService
-  http.DeliveryService --> http.HTTPService
+  http.DAppService --> http.Service
+  http.DeliveryService --> http.Service
 ```
 
 

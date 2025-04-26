@@ -6,10 +6,10 @@ from __future__ import annotations
 __all__: typing.Sequence[str] = (
     "abc",
     "Config",
-    "HTTPDefault",
+    "DefaultEngine",
     "dapp",
     "delivery",
-    "HTTPService",
+    "Service",
     "HashService",
     "EventService",
     "DAppService",
@@ -22,10 +22,10 @@ __all__: typing.Sequence[str] = (
 import typing
 
 from . import abc
-from .service import HTTPService
+from .service import Service
 from .engine import (
     Config,
-    HTTPDefault,
+    DefaultEngine,
 )
 from . import (
     dapp,
