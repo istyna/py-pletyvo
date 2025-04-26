@@ -197,7 +197,7 @@ class EventBody:
         return bytes(self)[4:]
 
     @data.setter
-    def data(self, data: typing.Any) -> None:
+    def data(self, data: bytes) -> None:
         self.payload[4:] = data
 
     @property
