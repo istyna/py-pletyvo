@@ -26,7 +26,6 @@ if typing.TYPE_CHECKING:
     from . import abc
     from pletyvo.types import (
         QueryOption,
-        JSONType,
         UUIDLike,
     )
 
@@ -44,7 +43,7 @@ class ChannelService(delivery.abc.ChannelService):
 
     async def get_by_id(self, id: UUIDLike) -> delivery.Channel:
         id = uuid_converter(id)
-        response: JSONType = await self._engine.get(f"/api/delivery/v1/channel/{id}")
+        response = await self._engine.get(f"/api/delivery/v1/channel/{id}")
         return delivery.Channel.from_dict(response)
 
     async def create(self, input: delivery.ChannelCreateInput) -> dapp.EventResponse:
@@ -89,16 +88,15 @@ class PostService(delivery.abc.PostService):
         self, channel: UUIDLike, option: typing.Optional[QueryOption] = None
     ) -> list[delivery.Post]:
         channel = uuid_converter(channel)
-        channel = uuid_converter(channel)
-        response: JSONType = await self._engine.get(
-            f"/api/delivery/v1/channel/{channel}/posts{str(option or '')}"  # noqa: E501
+        response = await self._engine.get(
+            f"/api/delivery/v1/channel/{channel}/posts{str(option or '')}",
         )
         return [delivery.Post.from_dict(post) for post in response]
 
-    async def get_by_id(self, channel: UUIDLike, id: UUIDLike) -> delivery.Post:
+    async def get_by_id(self, channel: UUIDLike, id: UUIDLike) -> delivery.Post:  # noqa: E501
         channel, id = uuid_converter(channel), uuid_converter(id)
-        response: JSONType = await self._engine.get(
-            f"/api/delivery/v1/channel/{channel}/posts/{id}"
+        response = await self._engine.get(
+            f"/api/delivery/v1/channel/{channel}/posts/{id}",
         )
         return delivery.Post.from_dict(response)
 
@@ -142,17 +140,17 @@ class MessageService(delivery.abc.MessageService):
         self, channel: UUIDLike, option: typing.Optional[QueryOption] = None
     ) -> list[delivery.Message]:
         channel = uuid_converter(channel)
-        response: JSONType = await self._engine.get(
-            f"/api/delivery/v1/channel/{channel}/messages" + str(option or "")
+        response = await self._engine.get(
+            f"/api/delivery/v1/channel/{channel}/messages{option or ''}",
         )
         return [delivery.Message.from_dict(message) for message in response]
 
     async def get_by_id(
         self, channel: UUIDLike, id: UUIDLike
     ) -> delivery.Message | None:
-        channel = uuid_converter(channel)
-        response: JSONType = await self._engine.get(
-            f"/api/delivery/v1/channels/{channel}/messages/{uuid_converter(id)}"
+        channel, id = uuid_converter(channel), uuid_converter(id)
+        response = await self._engine.get(
+            f"/api/delivery/v1/channels/{channel}/messages/{id}",
         )
         return delivery.Message.from_dict(response)
 
