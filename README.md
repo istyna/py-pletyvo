@@ -4,6 +4,10 @@
 
 # `py-pletyvo`
 
+![PyPI - Version](https://img.shields.io/pypi/v/pletyvo?color=2a6db2)
+![PyPI - License](https://img.shields.io/pypi/l/pletyvo?color=2a6db2)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pletyvo?color=2a6db2)
+
 Typed, async‑first Python client for [the Pletyvo decentralized platform](https://pletyvo.osyah.com/) and it's protocols (Python ≥ 3.9)
 
 
