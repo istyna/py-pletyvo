@@ -78,42 +78,7 @@ service = http.Service(
 
 #### Dependency graph
 
-```mermaid
----
-config:
-  layout: elk
----
-flowchart LR
-
-  subgraph Dependencies
-    dapp.abc.Signer["dapp.abc.Signer"]
-    http.DefaultEngine["http.DefaultEngine"]
-  end
-
-  subgraph Services
-    http.HashService["http.HashService"]
-    http.EventService["http.EventService"]
-    http.ChannelService["http.ChannelService"]
-    http.PostService["http.PostService"]
-    http.MessageService["http.MessageService"]
-    http.DAppService["http.DAppService"]
-    http.DeliveryService["http.DeliveryService"]
-    http.Service["http.Service"]
-  end
-
-  dapp.abc.Signer --> http.ChannelService & http.PostService & http.MessageService
-  http.DefaultEngine --> http.HashService & http.EventService & http.ChannelService & http.PostService & http.MessageService
-
-  http.EventService --> http.ChannelService & http.PostService & http.DAppService
-  http.HashService --> http.DAppService
-
-  http.ChannelService --> http.DeliveryService
-  http.PostService --> http.DeliveryService
-  http.MessageService --> http.DeliveryService
-
-  http.DAppService --> http.Service
-  http.DeliveryService --> http.Service
-```
+![pletyvo-dependency-graph](https://github.com/user-attachments/assets/36c2f675-f1c7-46fa-9bca-654e93c49684)
 
 
 ### dApp
