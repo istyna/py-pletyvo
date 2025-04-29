@@ -202,12 +202,15 @@ class EventBody:
 
     @property
     def parent(self) -> Hash:
+        if self.version != EventBodyType.LINKED:
+            error_message = "'.parent' is only available for linked EventBody"
+            raise ValueError(error_message)
         return Hash(self.payload[4:36])
 
     @parent.setter
     def parent(self, hash: Hash) -> None:
         if self.version != EventBodyType.LINKED:
-            error_message = "EventBody doesn't support linked version"
+            error_message = "'.parent' is only available for linked EventBody"
             raise ValueError(error_message)
         self.payload[4:36] = bytes(hash)
 
