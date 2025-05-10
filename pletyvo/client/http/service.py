@@ -14,7 +14,7 @@ from .delivery import DeliveryService
 
 if typing.TYPE_CHECKING:
     from . import abc
-    from pletyvo.protocol.dapp import abc as _dapp_abc
+    from pletyvo.protocol import dapp
 
 
 @attrs.define
@@ -24,7 +24,7 @@ class Service:
     delivery: DeliveryService = attrs.field()
 
     @classmethod
-    def di(cls, engine: abc.Engine, signer: _dapp_abc.Signer) -> Service:
+    def di(cls, engine: abc.Engine, signer: dapp.abc.Signer) -> Service:
         dapp = DAppService.di(engine)
         delivery = DeliveryService.di(engine, signer, dapp.event)
         return cls(dapp, delivery)
