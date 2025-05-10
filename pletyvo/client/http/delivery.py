@@ -147,7 +147,7 @@ class MessageService(delivery.abc.MessageService):
 
     async def get_by_id(
         self, channel: UUIDLike, id: UUIDLike
-    ) -> delivery.Message | None:
+    ) -> typing.Optional[delivery.Message]:
         channel, id = uuid_converter(channel), uuid_converter(id)
         response = await self._engine.get(
             f"/api/delivery/v1/channels/{channel}/messages/{id}",
