@@ -3,19 +3,15 @@
 
 from __future__ import annotations
 
-__all__: typing.Sequence[str] = (
+__all__: t.Sequence[str] = (
     "Signer",
     "HashService",
     "EventService",
 )
 
-import typing
-from abc import (
-    ABC,
-    abstractmethod,
-)
+import typing as t
 
-if typing.TYPE_CHECKING:
+if t.TYPE_CHECKING:
     from .hash import Hash
     from .event import (
         Event,
@@ -29,37 +25,37 @@ if typing.TYPE_CHECKING:
     )
 
 
-class Signer(ABC):
+class Signer(t.Protocol):
     @property
-    @abstractmethod
-    def sch(cls) -> int: ...
+    def sch(cls) -> int:
+        raise NotImplementedError
 
-    @abstractmethod
-    def sign(self, msg: bytes) -> bytes: ...
-
-    @property
-    @abstractmethod
-    def pub(self) -> bytes: ...
+    def sign(self, msg: bytes) -> bytes:
+        raise NotImplementedError
 
     @property
-    @abstractmethod
-    def hash(self) -> Hash: ...
+    def pub(self) -> bytes:
+        raise NotImplementedError
 
-    @abstractmethod
-    def auth(self, msg: bytes) -> AuthHeader: ...
+    @property
+    def hash(self) -> Hash:
+        raise NotImplementedError
+
+    def auth(self, msg: bytes) -> AuthHeader:
+        raise NotImplementedError
 
 
-class HashService(ABC):
-    @abstractmethod
-    async def get_by_id(self, id: Hash) -> EventResponse: ...
+class HashService(t.Protocol):
+    async def get_by_id(self, id: Hash) -> EventResponse:
+        raise NotImplementedError
 
 
-class EventService(ABC):
-    @abstractmethod
-    async def get(self, option: typing.Optional[QueryOption] = None) -> list[Event]: ...
+class EventService(t.Protocol):
+    async def get(self, option: t.Optional[QueryOption] = None) -> list[Event]:
+        raise NotImplementedError
 
-    @abstractmethod
-    async def get_by_id(self, id: UUIDLike) -> typing.Optional[Event]: ...
+    async def get_by_id(self, id: UUIDLike) -> t.Optional[Event]:
+        raise NotImplementedError
 
-    @abstractmethod
-    async def create(self, input: EventInput) -> EventResponse: ...
+    async def create(self, input: EventInput) -> EventResponse:
+        raise NotImplementedError

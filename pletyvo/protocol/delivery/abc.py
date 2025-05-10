@@ -3,19 +3,15 @@
 
 from __future__ import annotations
 
-__all__: typing.Sequence[str] = (
+__all__: t.Sequence[str] = (
     "ChannelService",
     "MessageService",
     "PostService",
 )
 
-import typing
-from abc import (
-    ABC,
-    abstractmethod,
-)
+import typing as t
 
-if typing.TYPE_CHECKING:
+if t.TYPE_CHECKING:
     from pletyvo.types import (
         QueryOption,
         UUIDLike,
@@ -36,43 +32,41 @@ if typing.TYPE_CHECKING:
     )
 
 
-class ChannelService(ABC):
-    @abstractmethod
-    async def get_by_id(self, id: UUIDLike) -> Channel: ...
+class ChannelService(t.Protocol):
+    async def get_by_id(self, id: UUIDLike) -> Channel:
+        raise NotImplementedError
 
-    @abstractmethod
-    async def create(self, input: ChannelCreateInput) -> dapp.EventResponse: ...
+    async def create(self, input: ChannelCreateInput) -> dapp.EventResponse:
+        raise NotImplementedError
 
-    @abstractmethod
-    async def update(self, input: ChannelUpdateInput) -> dapp.EventResponse: ...
+    async def update(self, input: ChannelUpdateInput) -> dapp.EventResponse:
+        raise NotImplementedError
 
 
-class MessageService(ABC):
-    @abstractmethod
+class MessageService(t.Protocol):
     async def get(
-        self, channel: UUIDLike, option: typing.Optional[QueryOption] = None
-    ) -> list[Message]: ...
+        self, channel: UUIDLike, option: t.Optional[QueryOption] = None
+    ) -> list[Message]:
+        raise NotImplementedError
 
-    @abstractmethod
-    async def get_by_id(
-        self, channel: UUIDLike, id: UUIDLike
-    ) -> typing.Optional[Message]: ...
+    async def get_by_id(self, channel: UUIDLike, id: UUIDLike) -> t.Optional[Message]:
+        raise NotImplementedError
 
-    @abstractmethod
-    async def send(self, message: delivery.Message) -> None: ...
+    async def send(self, message: delivery.Message) -> None:
+        raise NotImplementedError
 
 
-class PostService(ABC):
-    @abstractmethod
+class PostService(t.Protocol):
     async def get(
-        self, channel: UUIDLike, option: typing.Optional[QueryOption] = None
-    ) -> list[Post]: ...
+        self, channel: UUIDLike, option: t.Optional[QueryOption] = None
+    ) -> list[Post]:
+        raise NotImplementedError
 
-    @abstractmethod
-    async def get_by_id(self, channel: UUIDLike, id: UUIDLike) -> Post: ...
+    async def get_by_id(self, channel: UUIDLike, id: UUIDLike) -> Post:
+        raise NotImplementedError
 
-    @abstractmethod
-    async def create(self, input: PostCreateInput) -> dapp.EventResponse: ...
+    async def create(self, input: PostCreateInput) -> dapp.EventResponse:
+        raise NotImplementedError
 
-    @abstractmethod
-    async def update(self, input: PostUpdateInput) -> dapp.EventResponse: ...
+    async def update(self, input: PostUpdateInput) -> dapp.EventResponse:
+        raise NotImplementedError

@@ -3,21 +3,17 @@
 
 from __future__ import annotations
 
-__all__: typing.Sequence[str] = ("Engine",)
+__all__: t.Sequence[str] = ("Engine",)
 
-import typing
-from abc import (
-    ABC,
-    abstractmethod,
-)
+import typing as t
 
-if typing.TYPE_CHECKING:
+if t.TYPE_CHECKING:
     from pletyvo.types import JSONType
 
 
-class Engine(ABC):
-    @abstractmethod
-    async def get(self, endpoint: str) -> JSONType: ...
+class Engine(t.Protocol):
+    async def get(self, endpoint: str) -> JSONType:
+        raise NotImplementedError
 
-    @abstractmethod
-    async def post(self, endpoint: str, body: JSONType) -> JSONType: ...
+    async def post(self, endpoint: str, body: JSONType) -> JSONType:
+        raise NotImplementedError
