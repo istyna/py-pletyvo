@@ -13,9 +13,9 @@ from uuid import UUID
 
 import attrs
 
-from pletyvo.protocol import dapp
+from pletyvo import dapp
+from pletyvo.codec.validators import message_content_validator
 from pletyvo.codec.sanitizer import (
-    message_content_validator,
     dapp_hash_converter,
     dapp_auth_header_converter,
     dapp_event_body_converter,
@@ -43,4 +43,4 @@ class MessageInput:
 
     channel: dapp.Hash = attrs.field(converter=dapp_hash_converter)
 
-    content: str = attrs.field(validator=message_content_validator)
+    content: str = attrs.field(validator=message_content_validator())

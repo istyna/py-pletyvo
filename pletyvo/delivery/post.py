@@ -14,9 +14,9 @@ from uuid import UUID
 
 import attrs
 
-from pletyvo.protocol import dapp
+from pletyvo import dapp
+from pletyvo.codec.validators import post_content_validator
 from pletyvo.codec.sanitizer import (
-    post_content_validator,
     uuid_converter,
     dapp_hash_converter,
 )
@@ -32,7 +32,7 @@ class Post:
 
     channel: UUID = attrs.field(converter=uuid_converter)
 
-    content: str = attrs.field(validator=post_content_validator)
+    content: str = attrs.field(validator=post_content_validator())
 
     @classmethod
     def from_dict(cls, d: dict[str, typing.Any]) -> Post:
@@ -49,7 +49,7 @@ class Post:
 class PostCreateInput:
     channel: UUID = attrs.field(converter=uuid_converter)
 
-    content: str = attrs.field(validator=post_content_validator)
+    content: str = attrs.field(validator=post_content_validator())
 
 
 @attrs.define
@@ -58,4 +58,4 @@ class PostUpdateInput:
 
     post: dapp.Hash = attrs.field(converter=dapp_hash_converter)
 
-    content: str = attrs.field(validator=post_content_validator)
+    content: str = attrs.field(validator=post_content_validator())

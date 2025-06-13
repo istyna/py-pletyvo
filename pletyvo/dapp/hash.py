@@ -13,19 +13,23 @@ import base64
 import typing
 
 import attrs
+from attrs.validators import min_len, max_len
 from blake3 import blake3
 
 from pletyvo.utils import padd
-from pletyvo.codec.sanitizer import len_eq
 
 
 HASH_SIZE: typing.Final[int] = 32
 HASH_LENGTH: typing.Final[int] = 43
 
 
+def _len_eq(n: int):
+    return min_len(n), max_len(n)
+
+
 @attrs.define(hash=True)
 class Hash:
-    data: bytes = attrs.field(validator=len_eq(HASH_SIZE))
+    data: bytes = attrs.field(validator=_len_eq(HASH_SIZE))
 
     def __str__(self) -> str:
         return base64.urlsafe_b64encode(bytes(self)).decode("utf-8").rstrip("=")

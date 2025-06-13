@@ -13,7 +13,7 @@ import typing
 
 import attrs
 
-from pletyvo.protocol import dapp
+from pletyvo import dapp
 from pletyvo.codec.sanitizer import uuid_converter
 from pletyvo.codec.serializer import as_dict
 
@@ -52,7 +52,7 @@ class EventService(dapp.abc.EventService):
     async def create(self, input: dapp.EventInput) -> dapp.EventResponse:
         response = await self._engine.post(
             "/api/dapp/v1/events",
-            body=as_dict(input),
+            body=as_dict(input),  # type: ignore[arg-type]
         )
         return dapp.EventResponse.from_dict(response)
 

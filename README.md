@@ -23,32 +23,32 @@ pip install -U pletyvo
 
 ### Engine
 
-To begin using the client, you need to create an `engine` — the core component responsible for all communication with the Pletyvo gateway. You can create one using `http.DefaultEngine`:
+To begin using the client, you need to create an `engine` — the core component responsible for all communication with the Pletyvo gateway. You can create one using `pletyvo.DefaultEngine`:
 
 ```py
-from pletyvo.client import http
+import pletyvo
 
-engine: http.abc.Engine = http.DefaultEngine(
-    config=http.Config(
+engine: pletyvo.abc.Engine = pletyvo.DefaultEngine(
+    config=pletyvo.Config(
         url="http://testnet.pletyvo.osyah.com",
         network="AAEAAAAB",
     ),
 )
 ```
 
-The `http.Config` accepts:
+The `pletyvo.Config` accepts:
 - `url`: The gateway endpoint.
 - `network | None`: [the network identifier](https://pletyvo.osyah.com/reference#network-identify) encoded as a `base64` string. By default, has an already set network on the node side
 
 
 ### Service
 
-A service is a high-level interface that aggregates protocol-specific HTTP services. This top-level object internally composes [`http.DAppService`](#dapp) & [`http.DeliveryService`](#delivery). The service requires a `signer` — an object responsible for producing cryptographic signatures over [event bodies](https://pletyvo.osyah.com/protocols/dapp#event-body). The `signer` must implement the [`dapp.abc.Signer`](#cryptography-signing-with-dappauthheader) interface.
+A service is a high-level interface that aggregates protocol-specific HTTP services. This top-level object internally composes [`pletyvo.DAppService`](#dapp) & [`pletyvo.DeliveryService`](#delivery). The service requires a `signer` — an object responsible for producing cryptographic signatures over [event bodies](https://pletyvo.osyah.com/protocols/dapp#event-body). The `signer` must implement the [`dapp.abc.Signer`](#cryptography-signing-with-dappauthheader) interface.
 
 ```py
-from pletyvo.client import http
+import pletyvo
 
-service = http.Service.di(
+service = pletyvo.Service.di(
     engine=engine,
     signer=signer,
 )
@@ -60,17 +60,17 @@ service = http.Service.di(
 You can instantiate each service manually by passing required dependencies.
 
 ```py
-from pletyvo.client import http
+import pletyvo
 
-service = http.Service(
-    dapp=http.DAppService(
-        hash=http.HashService(...),
-        event=http.EventService(...),
+service = pletyvo.Service(
+    dapp=pletyvo.DAppService(
+        hash=pletyvo.HashService(...),
+        event=pletyvo.EventService(...),
     ),
-    delivery=http.DeliveryService(
-        channel=http.ChannelService(...),
-        post=http.PostService(...),
-        message=http.MessageService(...),
+    delivery=pletyvo.DeliveryService(
+        channel=pletyvo.ChannelService(...),
+        post=pletyvo.PostService(...),
+        message=pletyvo.MessageService(...),
     )
 )
 ```
@@ -90,14 +90,14 @@ The dApp protocol defines how signed events are created, verified, and published
 The dApp service itself does not construct or validate signatures — it only transmits fully-formed signed events.
 
 ```py
-from pletyvo.client import http
+import pletyvo
 
-dapp_service = http.DAppService.di(
+dapp_service = pletyvo.DAppService.di(
     engine=engine,
 )
-dapp_service = http.DAppService(
-    hash=http.HashService(...),
-    event=http.EventService(...),
+dapp_service = pletyvo.DAppService(
+    hash=pletyvo.HashService(...),
+    event=pletyvo.EventService(...),
 )
 ```
 
@@ -109,7 +109,7 @@ Most dApp calls that create or update data must be signed with an `ED25519` key
 `py‑pletyvo` lets you obtain a keypair from a random seed, raw bytes, or a file. If you prefer BIP‑39 mnemonics, generate a seed with an external helper such as [`osyah/homin`](https://github.com/osyah/homin) and load it into the `signer`.
 
 ```py
-from pletyvo.protocol import dapp
+from pletyvo import dapp
 
 signer: dapp.abc.Signer
 
@@ -125,19 +125,19 @@ signer = dapp.ED25519(...)
 
 [Platform docs: Delivery](https://pletyvo.osyah.com/protocols/delivery)
 
-The delivery layer exposes three narrow services — `http.ChannelService`, `http.PostService`, and `http.MessageService` — bundled under `http.DeliveryService`.
+The delivery layer exposes three narrow services — `pletyvo.ChannelService`, `pletyvo.PostService`, and `pletyvo.MessageService` — bundled under `pletyvo.DeliveryService`.
 
 ```py
-from pletyvo.client import http
+import pletyvo
 
-delivery_service = http.DeliveryService.di(
+delivery_service = pletyvo.DeliveryService.di(
     engine=engine,
     signer=signer,
     event=event_service,
 )
-delivery_service = http.DeliveryService(
-    channel=http.ChannelService(...),
-    post=http.PostService(...),
-    message=http.MessageService(...),
+delivery_service = pletyvo.DeliveryService(
+    channel=pletyvo.ChannelService(...),
+    post=pletyvo.PostService(...),
+    message=pletyvo.MessageService(...),
 )
 ```

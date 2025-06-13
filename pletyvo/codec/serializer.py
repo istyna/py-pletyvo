@@ -9,22 +9,22 @@ import typing
 
 from classes import typeclass
 
-from pletyvo.protocol.dapp.event import (
+from pletyvo.dapp.event import (
     AuthHeader,
     EventInput,
     Event,
     EventResponse,
 )
-from pletyvo.protocol.delivery.channel import (
+from pletyvo.delivery.channel import (
     Channel,
     ChannelCreateInput,
     ChannelUpdateInput,
 )
-from pletyvo.protocol.delivery.message import (
+from pletyvo.delivery.message import (
     Message,
     MessageInput,
 )
-from pletyvo.protocol.delivery.post import (
+from pletyvo.delivery.post import (
     Post,
     PostCreateInput,
     PostUpdateInput,
@@ -34,7 +34,20 @@ from typing import Any
 
 
 @typeclass
-def as_dict(instance) -> dict: ...
+def as_dict(  # type: ignore[empty-body]
+    instance: AuthHeader
+    | EventInput
+    | Event
+    | EventResponse
+    | Channel
+    | ChannelCreateInput
+    | ChannelUpdateInput
+    | Message
+    | MessageInput
+    | Post
+    | PostCreateInput
+    | PostUpdateInput,
+) -> dict: ...
 
 
 @as_dict.instance(AuthHeader)
@@ -52,7 +65,7 @@ def _as_dict_dapp_auth_header(instance: AuthHeader):
 def _as_dict_dapp_event_input(instance: EventInput):
     return {
         "body": str(instance.body),
-        "auth": as_dict(instance.auth),
+        "auth": as_dict(instance.auth),  # type: ignore[arg-type]
     }
 
 
@@ -61,7 +74,7 @@ def _as_dict_dapp_event(instance: Event):
     return {
         "id": str(instance.id),
         "body": str(instance.body),
-        "auth": as_dict(instance.auth),
+        "auth": as_dict(instance.auth),  # type: ignore[arg-type]
     }
 
 
@@ -104,7 +117,7 @@ def _as_dict_delivery_channel_update_input(
 def _as_dict_delivery_message(instance: Message) -> dict[str, Any]:
     return {
         "body": str(instance.body),
-        "auth": as_dict(instance.auth),
+        "auth": as_dict(instance.auth),  # type: ignore[arg-type]
     }
 
 

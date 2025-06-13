@@ -26,7 +26,7 @@ def uuid7(
         return uuc_uuid7()
 
     ts, ns = _split_timestamp(timestamp)
-    return UUID(bytes=uu_uuid7(ts, ns).bytes)
+    return UUID(int=uu_uuid7(ts, ns).int)
 
 
 def _split_timestamp(timestamp: float) -> tuple[int, int]:

@@ -25,8 +25,10 @@ import attrs
 
 from .hash import Hash
 from pletyvo.utils import padd
-from pletyvo.codec.sanitizer import (
+from pletyvo.codec.validators import (
     event_type_octet_validator,
+)
+from pletyvo.codec.sanitizer import (
     uuid_converter,
     dapp_hash_converter,
     dapp_event_body_converter,
@@ -70,9 +72,9 @@ class EventHeader:
 
 @attrs.define
 class EventType:
-    major: int = attrs.field(validator=event_type_octet_validator)
+    major: int = attrs.field(validator=event_type_octet_validator())
 
-    minor: int = attrs.field(validator=event_type_octet_validator)
+    minor: int = attrs.field(validator=event_type_octet_validator())
 
     def __bytes__(self) -> bytes:
         return bytes(tuple(self))

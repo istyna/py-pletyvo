@@ -13,16 +13,14 @@ import typing
 
 import attrs
 
-from pletyvo.protocol import dapp
-from pletyvo.codec.sanitizer import (
-    channel_name_validator,
-    dapp_hash_converter,
-)
+from pletyvo import dapp
+from pletyvo.codec.validators import channel_name_validator
+from pletyvo.codec.sanitizer import dapp_hash_converter
 
 
 @attrs.define
 class Channel(dapp.EventHeader):
-    name: str = attrs.field(validator=channel_name_validator)
+    name: str = attrs.field(validator=channel_name_validator())
 
     author: dapp.Hash = attrs.field(converter=dapp_hash_converter)
 
@@ -38,7 +36,7 @@ class Channel(dapp.EventHeader):
 
 @attrs.define
 class ChannelCreateInput:
-    name: str = attrs.field(validator=channel_name_validator)
+    name: str = attrs.field(validator=channel_name_validator())
 
     @classmethod
     def from_dict(cls, d: dict[str, typing.Any]) -> ChannelCreateInput:
@@ -49,7 +47,7 @@ class ChannelCreateInput:
 
 @attrs.define
 class ChannelUpdateInput:
-    name: str = attrs.field(validator=channel_name_validator)
+    name: str = attrs.field(validator=channel_name_validator())
 
     @classmethod
     def from_dict(cls, d: dict[str, typing.Any]) -> ChannelUpdateInput:

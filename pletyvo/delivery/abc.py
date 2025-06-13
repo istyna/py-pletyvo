@@ -16,7 +16,7 @@ if t.TYPE_CHECKING:
         QueryOption,
         UUIDLike,
     )
-    from pletyvo.protocol import dapp, delivery
+    from pletyvo import dapp
     from .channel import (
         Channel,
         ChannelCreateInput,
@@ -52,7 +52,7 @@ class MessageService(t.Protocol):
     async def get_by_id(self, channel: UUIDLike, id: UUIDLike) -> t.Optional[Message]:
         raise NotImplementedError
 
-    async def send(self, message: delivery.Message) -> None:
+    async def send(self, message: dapp.EventInput) -> None:
         raise NotImplementedError
 
 

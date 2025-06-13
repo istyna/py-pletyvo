@@ -13,7 +13,7 @@ __all__: typing.Sequence[str] = (
 
 import typing
 
-from pletyvo.protocol.dapp import EventType
+from pletyvo.dapp import EventType
 
 
 CHANNEL_CREATE_EVENT_TYPE = EventType.from_uint16(3)

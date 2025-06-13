@@ -17,7 +17,7 @@ from aiohttp.client_exceptions import ContentTypeError as AiohttpContentTypeErro
 
 from pletyvo.codec.serializer import as_dict
 from pletyvo.codec.sanitizer import uuid_converter
-from pletyvo.protocol import (
+from pletyvo import (
     dapp,
     delivery,
 )
@@ -54,7 +54,7 @@ class ChannelService(delivery.abc.ChannelService):
                     version=dapp.EventBodyType.BASIC,
                     data_type=dapp.EventBodyDataType.JSON,
                     event_type=delivery.CHANNEL_CREATE_EVENT_TYPE,
-                    value=as_dict(input),
+                    value=as_dict(input),  # type: ignore[arg-type]
                 ),
             )
         )
@@ -67,7 +67,7 @@ class ChannelService(delivery.abc.ChannelService):
                     version=dapp.EventBodyType.BASIC,
                     data_type=dapp.EventBodyDataType.JSON,
                     event_type=delivery.CHANNEL_UPDATE_EVENT_TYPE,
-                    value=as_dict(input),
+                    value=as_dict(input),  # type: ignore[arg-type]
                 ),
             )
         )
@@ -108,7 +108,7 @@ class PostService(delivery.abc.PostService):
                     version=dapp.EventBodyType.BASIC,
                     data_type=dapp.EventBodyDataType.JSON,
                     event_type=delivery.POST_CREATE_EVENT_TYPE,
-                    value=as_dict(input),
+                    value=as_dict(input),  # type: ignore[arg-type]
                 ),
             )
         )
@@ -121,7 +121,7 @@ class PostService(delivery.abc.PostService):
                     version=dapp.EventBodyType.BASIC,
                     data_type=dapp.EventBodyDataType.JSON,
                     event_type=delivery.POST_UPDATE_EVENT_TYPE,
-                    value=as_dict(input),
+                    value=as_dict(input),  # type: ignore[arg-type]
                 ),
             )
         )
@@ -157,7 +157,8 @@ class MessageService(delivery.abc.MessageService):
     async def send(self, message: dapp.EventInput) -> None:
         with contextlib.suppress(AiohttpContentTypeError):
             await self._engine.post(
-                "/api/delivery/v1/channel/send", body=as_dict(message)
+                "/api/delivery/v1/channel/send",
+                body=as_dict(message),  # type: ignore[arg-type]
             )
 
 
