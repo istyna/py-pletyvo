@@ -42,7 +42,6 @@ class DefaultEngine(abc.Engine):
         session = ClientSession(
             base_url=self._config.url,
             raise_for_status=True,
-            headers={_CONTENT_TYPE_KEY: _CONTENT_TYPE_JSON},
         )
 
         if network := self._config.network:
@@ -55,5 +54,6 @@ class DefaultEngine(abc.Engine):
             return await response.json()
 
     async def post(self, endpoint: str, body: JSONType) -> JSONType:
-        async with self.session.post(endpoint, json=body) as response:
+        headers = {_CONTENT_TYPE_KEY: _CONTENT_TYPE_JSON}
+        async with self.session.post(endpoint, json=body, headers=headers) as response:
             return await response.json()
