@@ -19,7 +19,7 @@ __all__: typing.Sequence[str] = (
     "MessageService",
     "DeliveryService",
 )
-__version__: typing.Final[str] = "0.0.0a7"
+__version__: typing.Final[str] = "0.1.0"
 
 import typing
 
