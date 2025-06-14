@@ -15,7 +15,7 @@ import attrs
 from attrs.validators import min_len, max_len
 from blake3 import blake3
 
-from pletyvo.codec.base64 import b64decodenopad, b64encodenopad
+from pletyvo.internal.base64 import b64decodenopad, b64encodenopad
 
 
 HASH_SIZE: typing.Final[int] = 32

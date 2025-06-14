@@ -14,8 +14,8 @@ import typing
 import attrs
 
 from pletyvo import dapp
-from pletyvo.codec.sanitizer import uuid_converter
-from pletyvo.codec.serializer import as_dict
+from pletyvo.internal.sanitizer import uuid_converter
+from pletyvo.internal.serializer import as_dict
 
 if typing.TYPE_CHECKING:
     from . import abc

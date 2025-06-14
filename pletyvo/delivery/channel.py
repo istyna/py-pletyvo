@@ -14,8 +14,8 @@ import typing
 import attrs
 
 from pletyvo import dapp
-from pletyvo.codec.validators import channel_name_validator
-from pletyvo.codec.sanitizer import dapp_hash_converter
+from pletyvo.internal.validators import channel_name_validator
+from pletyvo.internal.sanitizer import dapp_hash_converter
 
 
 @attrs.define

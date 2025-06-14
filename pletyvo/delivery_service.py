@@ -15,8 +15,8 @@ import typing
 import attrs
 from aiohttp.client_exceptions import ContentTypeError as AiohttpContentTypeError
 
-from pletyvo.codec.serializer import as_dict
-from pletyvo.codec.sanitizer import uuid_converter
+from pletyvo.internal.serializer import as_dict
+from pletyvo.internal.sanitizer import uuid_converter
 from pletyvo import (
     dapp,
     delivery,

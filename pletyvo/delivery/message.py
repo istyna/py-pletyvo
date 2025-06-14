@@ -14,8 +14,8 @@ from uuid import UUID
 import attrs
 
 from pletyvo import dapp
-from pletyvo.codec.validators import message_content_validator
-from pletyvo.codec.sanitizer import (
+from pletyvo.internal.validators import message_content_validator
+from pletyvo.internal.sanitizer import (
     dapp_hash_converter,
     dapp_auth_header_converter,
     dapp_event_body_converter,

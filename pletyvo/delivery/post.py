@@ -15,8 +15,8 @@ from uuid import UUID
 import attrs
 
 from pletyvo import dapp
-from pletyvo.codec.validators import post_content_validator
-from pletyvo.codec.sanitizer import (
+from pletyvo.internal.validators import post_content_validator
+from pletyvo.internal.sanitizer import (
     uuid_converter,
     dapp_hash_converter,
 )

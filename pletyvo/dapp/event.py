@@ -24,11 +24,11 @@ from enum import IntEnum
 import attrs
 
 from .hash import Hash
-from pletyvo.codec.base64 import b64decodenopad, b64encodenopad
-from pletyvo.codec.validators import (
+from pletyvo.internal.base64 import b64decodenopad, b64encodenopad
+from pletyvo.internal.validators import (
     event_type_octet_validator,
 )
-from pletyvo.codec.sanitizer import (
+from pletyvo.internal.sanitizer import (
     uuid_converter,
     dapp_hash_converter,
     dapp_event_body_converter,
