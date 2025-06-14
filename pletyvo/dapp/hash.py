@@ -9,14 +9,13 @@ __all__: typing.Sequence[str] = (
     "Hash",
 )
 
-import base64
 import typing
 
 import attrs
 from attrs.validators import min_len, max_len
 from blake3 import blake3
 
-from pletyvo.utils import padd
+from pletyvo.codec.base64 import b64decodenopad, b64encodenopad
 
 
 HASH_SIZE: typing.Final[int] = 32
@@ -32,7 +31,7 @@ class Hash:
     data: bytes = attrs.field(validator=_len_eq(HASH_SIZE))
 
     def __str__(self) -> str:
-        return base64.urlsafe_b64encode(bytes(self)).decode("utf-8").rstrip("=")
+        return b64encodenopad(bytes(self))
 
     def __len__(self) -> int:
         return len(str(self))
@@ -45,7 +44,7 @@ class Hash:
         if len(s) != HASH_LENGTH:
             error_message = f"Hash must have {HASH_LENGTH} characters, not {len(s)}"
             raise ValueError(error_message)
-        return cls(base64.urlsafe_b64decode(padd(s)))
+        return cls(b64decodenopad(s))
 
     @classmethod
     def gen(cls, sch: int, data: bytes) -> Hash:

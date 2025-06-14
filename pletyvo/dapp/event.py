@@ -24,7 +24,7 @@ from enum import IntEnum
 import attrs
 
 from .hash import Hash
-from pletyvo.utils import padd
+from pletyvo.codec.base64 import b64decodenopad, b64encodenopad
 from pletyvo.codec.validators import (
     event_type_octet_validator,
 )
@@ -154,10 +154,10 @@ class EventBody:
 
     @classmethod
     def from_str(cls, s: str) -> EventBody:
-        return cls.from_bytes(base64.urlsafe_b64decode(padd(s)))
+        return cls.from_bytes(b64decodenopad(s))
 
     def __str__(self) -> str:
-        return base64.urlsafe_b64encode(bytes(self)).decode("utf-8").rstrip("=")
+        return b64encodenopad(bytes(self))
 
     def __bytes__(self) -> bytes:
         return bytes(self.payload)
