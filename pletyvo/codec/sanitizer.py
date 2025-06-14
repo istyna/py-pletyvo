@@ -14,7 +14,7 @@ import typing
 import datetime as dt
 from uuid import UUID
 
-from pletyvo.utils import uuid7
+from .uuid import uuid7
 
 if typing.TYPE_CHECKING:
     from pletyvo.dapp.event import Hash, AuthHeader, EventBody

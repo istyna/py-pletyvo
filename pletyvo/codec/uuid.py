@@ -3,20 +3,12 @@
 
 from __future__ import annotations
 
-__all__: typing.Sequence[str] = (
-    "padd",
-    "uuid7",
-)
+__all__: typing.Sequence[str] = ("uuid7",)
 
 import typing
-
 from uuid import UUID
 from uuid_utils import uuid7 as uu_uuid7
 from uuid_utils.compat import uuid7 as uuc_uuid7
-
-
-def padd(s: str) -> str:
-    return s + "=" * (-len(s) % 4)
 
 
 def uuid7(
