@@ -22,7 +22,7 @@ from pletyvo.internal.sanitizer import (
 )
 
 
-@attrs.define
+@attrs.define(frozen=True)
 class Post:
     id: UUID = attrs.field(converter=uuid_converter)
 
@@ -45,14 +45,14 @@ class Post:
         )
 
 
-@attrs.define
+@attrs.define(frozen=True)
 class PostCreateInput:
     channel: UUID = attrs.field(converter=uuid_converter)
 
     content: str = attrs.field(validator=post_content_validator())
 
 
-@attrs.define
+@attrs.define(frozen=True)
 class PostUpdateInput:
     channel: UUID = attrs.field(converter=uuid_converter)
 

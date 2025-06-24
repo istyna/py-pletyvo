@@ -26,7 +26,7 @@ def _len_eq(n: int):
     return min_len(n), max_len(n)
 
 
-@attrs.define(hash=True)
+@attrs.define(frozen=True)
 class Hash:
     data: bytes = attrs.field(validator=_len_eq(HASH_SIZE))
 

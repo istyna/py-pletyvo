@@ -23,7 +23,7 @@ from pletyvo.internal.sanitizer import (
 )
 
 
-@attrs.define(hash=True)
+@attrs.define(frozen=True)
 class Message:
     body: dapp.EventBody = attrs.field(converter=dapp_event_body_converter)
 
@@ -37,7 +37,7 @@ class Message:
         )
 
 
-@attrs.define
+@attrs.define(frozen=True)
 class MessageInput:
     id: UUID = attrs.field(converter=uuid_converter)
 

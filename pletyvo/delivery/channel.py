@@ -18,7 +18,7 @@ from pletyvo.internal.validators import channel_name_validator
 from pletyvo.internal.sanitizer import dapp_hash_converter
 
 
-@attrs.define
+@attrs.define(frozen=True)
 class Channel(dapp.EventHeader):
     name: str = attrs.field(validator=channel_name_validator())
 
@@ -34,7 +34,7 @@ class Channel(dapp.EventHeader):
         )
 
 
-@attrs.define
+@attrs.define(frozen=True)
 class ChannelCreateInput:
     name: str = attrs.field(validator=channel_name_validator())
 
@@ -45,7 +45,7 @@ class ChannelCreateInput:
         )
 
 
-@attrs.define
+@attrs.define(frozen=True)
 class ChannelUpdateInput:
     name: str = attrs.field(validator=channel_name_validator())
 

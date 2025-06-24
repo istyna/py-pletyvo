@@ -56,7 +56,7 @@ class EventBodyType(IntEnum):
         }[EventBodyType(version)]
 
 
-@attrs.define
+@attrs.define(frozen=True)
 class EventHeader:
     id: UUID = attrs.field(converter=uuid_converter)
 
@@ -70,7 +70,7 @@ class EventHeader:
         )
 
 
-@attrs.define
+@attrs.define(frozen=True)
 class EventType:
     major: int = attrs.field(validator=event_type_octet_validator())
 
@@ -101,6 +101,7 @@ class EventType:
         return cls(value[0], value[1])
 
 
+# TODO: Put frozen=True, but since there are setters I'm deferring it
 @attrs.define
 class EventBody:
     # TODO: Implement `.from_json(...)` function, consider
@@ -217,7 +218,7 @@ class EventBody:
         self.payload[4:36] = bytes(hash)
 
 
-@attrs.define(hash=True)
+@attrs.define(frozen=True)
 class AuthHeader:
     sch: int = attrs.field()
 
@@ -238,7 +239,7 @@ class AuthHeader:
         )
 
 
-@attrs.define()
+@attrs.define(frozen=True)
 class EventInput:
     body: EventBody = attrs.field(converter=dapp_event_body_converter)
 
@@ -252,7 +253,7 @@ class EventInput:
         )
 
 
-@attrs.define
+@attrs.define(frozen=True)
 class Event:
     id: UUID = attrs.field(converter=uuid_converter)
 
@@ -269,7 +270,7 @@ class Event:
         )
 
 
-@attrs.define
+@attrs.define(frozen=True)
 class EventResponse:
     id: UUID = attrs.field(converter=uuid_converter)
 
