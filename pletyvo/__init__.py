@@ -5,7 +5,7 @@ from __future__ import annotations
 
 __all__: typing.Sequence[str] = (
     "types",
-    "abc",
+    "traits",
     "Service",
     "Config",
     "DefaultEngine",
@@ -24,7 +24,7 @@ __version__: typing.Final[str] = "0.1.0"
 import typing
 
 from . import (
-    abc,
+    traits,
     types,
 )
 from .service import Service

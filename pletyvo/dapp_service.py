@@ -18,15 +18,15 @@ from pletyvo.internal.sanitizer import uuid_converter
 from pletyvo.internal.serializer import as_dict
 
 if typing.TYPE_CHECKING:
-    from . import abc
+    from . import traits
     from pletyvo.types import (
         QueryOption,
         UUIDLike,
     )
 
 
-class HashService(dapp.abc.HashService):
-    def __init__(self, engine: abc.Engine) -> None:
+class HashService(dapp.traits.HashService):
+    def __init__(self, engine: traits.Engine) -> None:
         self._engine = engine
 
     async def get_by_id(self, id: dapp.Hash) -> dapp.EventResponse:
@@ -34,8 +34,8 @@ class HashService(dapp.abc.HashService):
         return dapp.EventResponse.from_dict(response)
 
 
-class EventService(dapp.abc.EventService):
-    def __init__(self, engine: abc.Engine) -> None:
+class EventService(dapp.traits.EventService):
+    def __init__(self, engine: traits.Engine) -> None:
         self._engine = engine
 
     async def get(
@@ -64,7 +64,7 @@ class DAppService:
     event: EventService = attrs.field()
 
     @classmethod
-    def di(cls, engine: abc.Engine) -> DAppService:
+    def di(cls, engine: traits.Engine) -> DAppService:
         hash = HashService(engine)
         event = EventService(engine)
         return cls(hash, event)

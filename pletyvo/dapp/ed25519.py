@@ -15,7 +15,7 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import (
     Ed25519PublicKey,
 )
 
-from . import abc
+from . import traits
 from .event import AuthHeader
 from .hash import Hash
 
@@ -27,7 +27,7 @@ class Schema:
     ED25519 = 1
 
 
-class ED25519(abc.Signer):
+class ED25519(traits.Signer):
     def __init__(self, seed: bytes) -> None:
         self._private_key = Ed25519PrivateKey.from_private_bytes(seed)
         self._public_key = self._private_key.public_key()

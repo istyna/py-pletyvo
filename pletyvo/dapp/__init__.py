@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 __all__: typing.Sequence[str] = (
-    "abc",
+    "traits",
     "Schema",
     "ED25519",
     "HASH_SIZE",
@@ -23,7 +23,7 @@ __all__: typing.Sequence[str] = (
 
 import typing
 
-from . import abc
+from . import traits
 from .ed25519 import Schema, ED25519
 from .hash import (
     HASH_SIZE,

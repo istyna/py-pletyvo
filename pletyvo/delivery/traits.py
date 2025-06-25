@@ -3,15 +3,15 @@
 
 from __future__ import annotations
 
-__all__: t.Sequence[str] = (
+__all__: typing.Sequence[str] = (
     "ChannelService",
     "MessageService",
     "PostService",
 )
 
-import typing as t
+import typing
 
-if t.TYPE_CHECKING:
+if typing.TYPE_CHECKING:
     from pletyvo.types import (
         QueryOption,
         UUIDLike,
@@ -32,7 +32,9 @@ if t.TYPE_CHECKING:
     )
 
 
-class ChannelService(t.Protocol):
+class ChannelService(typing.Protocol):
+    __slots__: typing.Sequence[str] = ()
+
     async def get_by_id(self, id: UUIDLike) -> Channel:
         raise NotImplementedError
 
@@ -43,22 +45,34 @@ class ChannelService(t.Protocol):
         raise NotImplementedError
 
 
-class MessageService(t.Protocol):
+class MessageService(typing.Protocol):
+    __slots__: typing.Sequence[str] = ()
+
     async def get(
-        self, channel: UUIDLike, option: t.Optional[QueryOption] = None
+        self,
+        channel: UUIDLike,
+        option: typing.Optional[QueryOption] = None,
     ) -> list[Message]:
         raise NotImplementedError
 
-    async def get_by_id(self, channel: UUIDLike, id: UUIDLike) -> t.Optional[Message]:
+    async def get_by_id(
+        self,
+        channel: UUIDLike,
+        id: UUIDLike,
+    ) -> typing.Optional[Message]:
         raise NotImplementedError
 
     async def send(self, message: dapp.EventInput) -> None:
         raise NotImplementedError
 
 
-class PostService(t.Protocol):
+class PostService(typing.Protocol):
+    __slots__: typing.Sequence[str] = ()
+
     async def get(
-        self, channel: UUIDLike, option: t.Optional[QueryOption] = None
+        self,
+        channel: UUIDLike,
+        option: typing.Optional[QueryOption] = None,
     ) -> list[Post]:
         raise NotImplementedError
 

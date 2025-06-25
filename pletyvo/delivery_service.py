@@ -23,19 +23,19 @@ from pletyvo import (
 )
 
 if typing.TYPE_CHECKING:
-    from . import abc
+    from . import traits
     from pletyvo.types import (
         QueryOption,
         UUIDLike,
     )
 
 
-class ChannelService(delivery.abc.ChannelService):
+class ChannelService(delivery.traits.ChannelService):
     def __init__(
         self,
-        engine: abc.Engine,
-        signer: dapp.abc.Signer,
-        event: dapp.abc.EventService,
+        engine: traits.Engine,
+        signer: dapp.traits.Signer,
+        event: dapp.traits.EventService,
     ) -> None:
         self._engine = engine
         self._signer = signer
@@ -73,12 +73,12 @@ class ChannelService(delivery.abc.ChannelService):
         )
 
 
-class PostService(delivery.abc.PostService):
+class PostService(delivery.traits.PostService):
     def __init__(
         self,
-        engine: abc.Engine,
-        signer: dapp.abc.Signer,
-        event: dapp.abc.EventService,
+        engine: traits.Engine,
+        signer: dapp.traits.Signer,
+        event: dapp.traits.EventService,
     ) -> None:
         self._engine = engine
         self._signer = signer
@@ -127,11 +127,11 @@ class PostService(delivery.abc.PostService):
         )
 
 
-class MessageService(delivery.abc.MessageService):
+class MessageService(delivery.traits.MessageService):
     def __init__(
         self,
-        engine: abc.Engine,
-        signer: dapp.abc.Signer,
+        engine: traits.Engine,
+        signer: dapp.traits.Signer,
     ) -> None:
         self._engine = engine
         self._signer = signer
@@ -173,9 +173,9 @@ class DeliveryService:
     @classmethod
     def di(
         cls,
-        engine: abc.Engine,
-        signer: dapp.abc.Signer,
-        event: dapp.abc.EventService,
+        engine: traits.Engine,
+        signer: dapp.traits.Signer,
+        event: dapp.traits.EventService,
     ):
         channel = ChannelService(engine, signer, event)
         post = PostService(engine, signer, event)

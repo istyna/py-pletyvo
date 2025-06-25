@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 __all__: typing.Sequence[str] = (
-    "abc",
+    "traits",
     "CHANNEL_CREATE_EVENT_TYPE",
     "CHANNEL_UPDATE_EVENT_TYPE",
     "POST_CREATE_EVENT_TYPE",
@@ -22,7 +22,7 @@ __all__: typing.Sequence[str] = (
 
 import typing
 
-from . import abc
+from . import traits
 from .event_type import (
     CHANNEL_CREATE_EVENT_TYPE,
     CHANNEL_UPDATE_EVENT_TYPE,

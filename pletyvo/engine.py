@@ -14,9 +14,10 @@ from functools import cached_property
 from aiohttp import ClientSession
 import attrs
 
-from . import abc
 
 if typing.TYPE_CHECKING:
+    from . import traits
+
     from pletyvo.types import JSONType
 
 
@@ -33,7 +34,7 @@ class Config:
     network: typing.Optional[str] = attrs.field(default=None)
 
 
-class DefaultEngine(abc.Engine):
+class DefaultEngine(traits.Engine):
     def __init__(self, config: Config):
         self._config = config
 

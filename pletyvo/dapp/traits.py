@@ -3,15 +3,15 @@
 
 from __future__ import annotations
 
-__all__: t.Sequence[str] = (
+__all__: typing.Sequence[str] = (
     "Signer",
     "HashService",
     "EventService",
 )
 
-import typing as t
+import typing
 
-if t.TYPE_CHECKING:
+if typing.TYPE_CHECKING:
     from .hash import Hash
     from .event import (
         Event,
@@ -25,7 +25,9 @@ if t.TYPE_CHECKING:
     )
 
 
-class Signer(t.Protocol):
+class Signer(typing.Protocol):
+    __slots__: typing.Sequence[str] = ()
+
     @property
     def sch(cls) -> int:
         raise NotImplementedError
@@ -45,16 +47,20 @@ class Signer(t.Protocol):
         raise NotImplementedError
 
 
-class HashService(t.Protocol):
+class HashService(typing.Protocol):
+    __slots__: typing.Sequence[str] = ()
+
     async def get_by_id(self, id: Hash) -> EventResponse:
         raise NotImplementedError
 
 
-class EventService(t.Protocol):
-    async def get(self, option: t.Optional[QueryOption] = None) -> list[Event]:
+class EventService(typing.Protocol):
+    __slots__: typing.Sequence[str] = ()
+
+    async def get(self, option: typing.Optional[QueryOption] = None) -> list[Event]:
         raise NotImplementedError
 
-    async def get_by_id(self, id: UUIDLike) -> t.Optional[Event]:
+    async def get_by_id(self, id: UUIDLike) -> typing.Optional[Event]:
         raise NotImplementedError
 
     async def create(self, input: EventInput) -> EventResponse:

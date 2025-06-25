@@ -36,7 +36,7 @@ from pletyvo.internal.sanitizer import (
 )
 
 if typing.TYPE_CHECKING:
-    from . import abc
+    from . import traits
 
 
 class EventBodyDataType(IntEnum):
@@ -246,7 +246,7 @@ class EventInput:
     auth: AuthHeader = attrs.field(converter=dapp_auth_header_converter)
 
     @classmethod
-    def signed(cls, signer: abc.Signer, body: EventBody) -> EventInput:
+    def signed(cls, signer: traits.Signer, body: EventBody) -> EventInput:
         return cls(
             body=body,
             auth=signer.auth(bytes(body)),
