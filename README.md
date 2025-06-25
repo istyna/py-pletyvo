@@ -28,22 +28,20 @@ To begin using the client, you need to create an `engine` — the core component
 ```py
 import pletyvo
 
-engine: pletyvo.abc.Engine = pletyvo.DefaultEngine(
-    config=pletyvo.Config(
-        url="http://testnet.pletyvo.osyah.com",
-        network="AAEAAAAB",
-    ),
+engine: pletyvo.traits.Engine = pletyvo.DefaultEngine(
+    url="http://testnet.pletyvo.osyah.com",
+    network="AAEAAAAB",
 )
 ```
 
-The `pletyvo.Config` accepts:
+The `pletyvo.DefaultEngine` accepts:
 - `url`: The gateway endpoint.
 - `network | None`: [the network identifier](https://pletyvo.osyah.com/reference#network-identify) encoded as a `base64` string. By default, has an already set network on the node side
 
 
 ### Service
 
-A service is a high-level interface that aggregates protocol-specific HTTP services. This top-level object internally composes [`pletyvo.DAppService`](#dapp) & [`pletyvo.DeliveryService`](#delivery). The service requires a `signer` — an object responsible for producing cryptographic signatures over [event bodies](https://pletyvo.osyah.com/protocols/dapp#event-body). The `signer` must implement the [`dapp.abc.Signer`](#cryptography-signing-with-dappauthheader) interface.
+A service is a high-level interface that aggregates protocol-specific HTTP services. This top-level object internally composes [`pletyvo.DAppService`](#dapp) & [`pletyvo.DeliveryService`](#delivery). The service requires a `signer` — an object responsible for producing cryptographic signatures over [event bodies](https://pletyvo.osyah.com/protocols/dapp#event-body). The `signer` must implement the [`pletyvo.traits.Signer`](#cryptography-signing-with-dappauthheader) interface.
 
 ```py
 import pletyvo
@@ -109,13 +107,13 @@ Most dApp calls that create or update data must be signed with an `ED25519` key
 `py‑pletyvo` lets you obtain a keypair from a random seed, raw bytes, or a file. If you prefer BIP‑39 mnemonics, generate a seed with an external helper such as [`osyah/homin`](https://github.com/osyah/homin) and load it into the `signer`.
 
 ```py
-from pletyvo import dapp
+import pletyvo
 
-signer: dapp.abc.Signer
+signer: pletyvo.traits.Signer
 
-signer = dapp.ED25519.gen()
-signer = dapp.ED25519.from_file(...)
-signer = dapp.ED25519(...)
+signer = pletyvo.ED25519.gen()
+signer = pletyvo.ED25519.from_file(...)
+signer = pletyvo.ED25519(...)
 ```
 
 [Pletyvo: decentralized applications (`UA`)](https://osyah.com/stattya/pletyvo-detsentralizovani-zastosunky)
