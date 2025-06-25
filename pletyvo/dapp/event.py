@@ -24,6 +24,7 @@ from enum import IntEnum
 import attrs
 
 from .hash import Hash
+from pletyvo import traits
 from pletyvo.internal.base64 import b64decodenopad, b64encodenopad
 from pletyvo.internal.validators import (
     event_type_octet_validator,
@@ -34,9 +35,6 @@ from pletyvo.internal.sanitizer import (
     dapp_event_body_converter,
     dapp_auth_header_converter,
 )
-
-if typing.TYPE_CHECKING:
-    from . import traits
 
 
 class EventBodyDataType(IntEnum):

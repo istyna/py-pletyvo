@@ -15,6 +15,7 @@ import typing
 import attrs
 from aiohttp.client_exceptions import ContentTypeError as AiohttpContentTypeError
 
+from . import traits
 from pletyvo.internal.serializer import as_dict
 from pletyvo.internal.sanitizer import uuid_converter
 from pletyvo import (
@@ -23,19 +24,18 @@ from pletyvo import (
 )
 
 if typing.TYPE_CHECKING:
-    from . import traits
     from pletyvo.types import (
         QueryOption,
         UUIDLike,
     )
 
 
-class ChannelService(delivery.traits.ChannelService):
+class ChannelService(traits.ChannelService):
     def __init__(
         self,
         engine: traits.Engine,
-        signer: dapp.traits.Signer,
-        event: dapp.traits.EventService,
+        signer: traits.Signer,
+        event: traits.EventService,
     ) -> None:
         self._engine = engine
         self._signer = signer
@@ -73,12 +73,12 @@ class ChannelService(delivery.traits.ChannelService):
         )
 
 
-class PostService(delivery.traits.PostService):
+class PostService(traits.PostService):
     def __init__(
         self,
         engine: traits.Engine,
-        signer: dapp.traits.Signer,
-        event: dapp.traits.EventService,
+        signer: traits.Signer,
+        event: traits.EventService,
     ) -> None:
         self._engine = engine
         self._signer = signer
@@ -127,11 +127,11 @@ class PostService(delivery.traits.PostService):
         )
 
 
-class MessageService(delivery.traits.MessageService):
+class MessageService(traits.MessageService):
     def __init__(
         self,
         engine: traits.Engine,
-        signer: dapp.traits.Signer,
+        signer: traits.Signer,
     ) -> None:
         self._engine = engine
         self._signer = signer
@@ -174,8 +174,8 @@ class DeliveryService:
     def di(
         cls,
         engine: traits.Engine,
-        signer: dapp.traits.Signer,
-        event: dapp.traits.EventService,
+        signer: traits.Signer,
+        event: traits.EventService,
     ):
         channel = ChannelService(engine, signer, event)
         post = PostService(engine, signer, event)

@@ -13,19 +13,19 @@ import typing
 
 import attrs
 
+from . import traits
 from pletyvo import dapp
 from pletyvo.internal.sanitizer import uuid_converter
 from pletyvo.internal.serializer import as_dict
 
 if typing.TYPE_CHECKING:
-    from . import traits
-    from pletyvo.types import (
+    from .types import (
         QueryOption,
         UUIDLike,
     )
 
 
-class HashService(dapp.traits.HashService):
+class HashService(traits.HashService):
     def __init__(self, engine: traits.Engine) -> None:
         self._engine = engine
 
@@ -34,7 +34,7 @@ class HashService(dapp.traits.HashService):
         return dapp.EventResponse.from_dict(response)
 
 
-class EventService(dapp.traits.EventService):
+class EventService(traits.EventService):
     def __init__(self, engine: traits.Engine) -> None:
         self._engine = engine
 

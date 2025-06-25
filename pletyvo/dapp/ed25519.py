@@ -15,7 +15,7 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import (
     Ed25519PublicKey,
 )
 
-from . import traits
+from pletyvo import traits
 from .event import AuthHeader
 from .hash import Hash
 
