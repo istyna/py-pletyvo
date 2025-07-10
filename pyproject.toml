@@ -12,7 +12,7 @@ description = "Typed, async‑first Python client for the Pletyvo decentralized 
 dynamic = ["version"]
 dependencies = [
   "setuptools~=71.0.4",
-  "aiohttp~=3.10.6",
+  "aiohttp>=3.12.13",
   "attrs~=24.2.0",
   "cryptography~=43.0.3",
   "blake3~=0.4.1",
@@ -26,7 +26,7 @@ classifiers = [
   "Development Status :: 3 - Alpha",
 
   "Intended Audience :: Developers",
-  "Topic :: Software Development :: Build Tools",
+  "Topic :: Software Development :: Libraries",
 
   "License :: OSI Approved :: MIT License",
 
